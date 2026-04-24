@@ -1,0 +1,153 @@
+.catalogo-wrapper {
+  padding: 60px 5%;
+  background: #f1f5f9;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.catalogo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 50px;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titulo-premium {
+  font-size: 36px;
+  color: #0f5f45;
+  font-weight: 800;
+  margin: 0;
+}
+
+.catalogo-header p {
+  color: #64748b;
+  margin-top: 5px;
+}
+
+.search-bar-fake {
+  background: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e2e8f0;
+  width: 300px;
+  cursor: pointer;
+}
+
+/* Grid */
+.grid-premium {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Card */
+.card-premium {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #edf2f7;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-premium:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #1f6f54;
+}
+
+/* Imagen */
+.image-container {
+  height: 220px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.gem-image {
+  width: 120px;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+.badge-tipo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #1f6f54;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Contenido */
+.content-box {
+  padding: 25px;
+}
+
+.main-info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #475569;
+  font-size: 13px;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.price-container label {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.valor-text {
+  color: #0f5f45;
+  font-size: 24px;
+  margin: 2px 0 20px 0;
+  font-weight: 800;
+}
+
+/* Botón */
+.btn-ver-mas {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: #1f6f54;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-ver-mas:hover {
+  background: #0f5f45;
+  box-shadow: 0 8px 15px rgba(31, 111, 84, 0.3);
+}

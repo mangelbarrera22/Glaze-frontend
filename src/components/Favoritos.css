@@ -1,0 +1,196 @@
+.favoritos-page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px 20px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.favoritos-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.favoritos-header h1 {
+  color: #0f5f45;
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.favoritos-header p {
+  color: #64748b;
+  font-size: 16px;
+}
+
+/* Buscador Premium */
+.search-container {
+  position: relative;
+  max-width: 500px;
+  margin: 30px auto 0;
+}
+
+.input-busqueda-premium {
+  width: 100%;
+  padding: 15px 20px 15px 45px;
+  border-radius: 30px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  font-size: 15px;
+  transition: 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.input-busqueda-premium:focus {
+  outline: none;
+  border-color: #1f6f54;
+  box-shadow: 0 10px 15px -3px rgba(31, 111, 84, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+}
+
+/* Grid y Cards */
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.favorito-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #edf2f7;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.favorito-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.image-wrapper {
+  position: relative;
+  height: 200px;
+  background: #f1f5f9;
+}
+
+.favorito-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 20px;
+}
+
+.sold-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.favorito-info {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.categoria-tag {
+  font-size: 10px;
+  font-weight: 800;
+  color: #1f6f54;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.favorito-info h3 {
+  margin: 5px 0 15px;
+  font-size: 18px;
+  color: #1e293b;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 15px;
+}
+
+.precio-tag {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f5f45;
+  margin-bottom: 20px;
+}
+
+/* Acciones */
+.favorito-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn-comprar-fav {
+  background: #1f6f54;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-comprar-fav:hover:not(:disabled) {
+  background: #0f5f45;
+}
+
+.btn-comprar-fav:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.btn-eliminar-fav {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #e2e8f0;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-eliminar-fav:hover {
+  color: #ef4444;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+.item-sold {
+  opacity: 0.8;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px;
+  color: #94a3b8;
+}

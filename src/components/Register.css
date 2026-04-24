@@ -1,0 +1,192 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.register-screen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #167a5a 0%, #0f5f45 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.register-card {
+  background: white;
+  width: 100%;
+  max-width: 480px; /* Un poco más ancho que el login para el grid */
+  padding: 35px;
+  border-radius: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.small-logo {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.register-header h2 {
+  color: #1f6f54;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.register-header p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Grid para nombres y apellidos */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #1f6f54;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(31, 111, 84, 0.1);
+}
+
+.btn-register {
+  width: 100%;
+  padding: 14px;
+  background: #1f6f54;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.btn-register:hover {
+  background: #15553f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(31, 111, 84, 0.3);
+}
+
+/* Caja de mensajes mejorada */
+.status-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.success-pop {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.error-shake {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+  animation: shake 0.3s;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.register-footer a {
+  color: #1f6f54;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.select-input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 14px;
+  color: #64748b; /* Color de placeholder */
+  appearance: none; /* Quita la flecha por defecto de algunos navegadores */
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: #1f6f54;
+  background: white;
+  color: #334155;
+}
+
+/* Opcional: añadir una flechita personalizada si deseas */
+.input-group::after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
