@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/components/login.js" }
+    { "source": "/(.*)", "destination": "/public/login.html" }
   ]
 }
