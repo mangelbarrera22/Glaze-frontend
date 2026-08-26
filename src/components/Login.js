@@ -1,115 +1,132 @@
+// src/pages/Login.js
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiUser, FiLock, FiEye, FiEyeOff, FiAlertCircle } from "react-icons/fi"; 
+import { FiUser, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import API from "../services/api";
 import "./Login.css";
+import logoGlaze from "../assets/images/LOGOS/Imagotipo/Glaze-verde.png";
 
 function Login() {
   const navigate = useNavigate();
-
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
-  const [mensaje, setMensaje] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [mensaje, setMensaje] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  const iniciarSesion = async (e) => {
     e.preventDefault();
+
+    if (!usuario || !password) {
+      setMensaje("Por favor rellena todos los campos");
+      return;
+    }
+
+    setLoading(true);
     setMensaje("");
 
     try {
-      const res = await API.post("/auth/login", {
-        usuario,
-        password
-      });
+      const res = await API.post("/auth/login", { usuario, password });
+      const { token, usuario: userData } = res.data;
 
-      console.log("RESPUESTA BACKEND:", res.data); // 🔍 debug
-
-      // 🔥 DESESTRUCTURAR CORRECTO
-      const { token, usuario: user } = res.data;
-
-      // 🔐 GUARDAR TOKEN
       localStorage.setItem("token", token);
+      localStorage.setItem("usuario", JSON.stringify(userData));
 
-      // 🔥 GUARDAR SOLO EL USUARIO (NO TODO EL RESPONSE)
-      localStorage.setItem("usuario", JSON.stringify(user));
-
-      // 🚀 REDIRECCIÓN SEGÚN ROL
-      if (user.tipo_usuario === "vendedor") {
+      if (userData.tipo_usuario === "vendedor") {
         navigate("/DashboardVendedor");
       } else {
         navigate("/dashboard");
       }
-
     } catch (error) {
-      console.log("ERROR LOGIN:", error);
-
       setMensaje(
         error.response?.data?.mensaje ||
         error.response?.data?.error ||
-        "Error de conexión"
+        "Error de conexión con el servidor"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-screen">
+      {/* HEADER CON LOGO GLAZE */}
       <div className="login-header">
-        <img src="/diamond.png" alt="logo" className="main-logo" />
-        <h1>Esmeraldas Premium</h1>
-        <p>Portal de Usuarios</p>
+            <img 
+  src={logoGlaze} 
+  alt="Glaze" 
+  className="logo-glaze"
+/>
+        <p className="brand-subtitle">ESMERALDAS DE COLECCIÓN</p>
       </div>
 
+      {/* CARD PRINCIPAL */}
       <div className="login-card">
-        <h2>Iniciar Sesión</h2>
+        <h2 className="card-title">Acceso Exclusivo</h2>
 
-        <form onSubmit={handleLogin}>
-          {/* Usuario */}
-          <div className="input-group">
-            <FiUser className="icon-left" />
-            <input
-              type="text"
-              placeholder="Usuario"
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)}
-              required
-            />
+        <form onSubmit={iniciarSesion}>
+          {/* USUARIO */}
+          <div className="input-container">
+            <label className="input-label">NOMBRE DE USUARIO</label>
+            <div className="input-wrapper">
+              <FiUser className="input-icon" />
+              <input
+                type="text"
+                placeholder="ej. usuario.usuario"
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                disabled={loading}
+              />
+            </div>
           </div>
 
-          {/* Password */}
-          <div className="input-group">
-            <FiLock className="icon-left" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              className="icon-right toggle-btn"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
-            </button>
+          {/* CONTRASEÑA */}
+          <div className="input-container">
+            <label className="input-label">CONTRASEÑA</label>
+            <div className="input-wrapper">
+              <FiLock className="input-icon" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEye /> : <FiEyeOff />}
+              </button>
+            </div>
           </div>
 
-          <button type="submit" className="btn-primary">
-            INGRESAR
+          {/* MENSAJE ERROR */}
+          {mensaje && (
+            <div className="error-container">
+              <p className="error-text">{mensaje}</p>
+            </div>
+          )}
+
+          {/* BOTÓN PRINCIPAL */}
+          <button 
+            type="submit" 
+            className="boton-principal"
+            disabled={loading}
+          >
+            {loading ? "CARGANDO..." : "INICIAR SESIÓN"}
           </button>
         </form>
 
-        {/* MENSAJE ERROR */}
-        {mensaje && (
-          <div className="error-alert">
-            <FiAlertCircle />
-            <span>{mensaje}</span>
-          </div>
-        )}
-
-        <div className="form-footer">
-          <span>¿No tienes cuenta?</span>
-          <Link to="/registro">Regístrate aquí</Link>
+        {/* FOOTER */}
+        <div className="register-link">
+          <p className="footer-text">
+            ¿No es miembro?{" "}
+            <Link to="/registro" className="link-bold">
+              Solicitar Registro
+            </Link>
+          </p>
         </div>
       </div>
     </div>

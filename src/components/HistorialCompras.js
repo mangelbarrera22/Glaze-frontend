@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importamos el hook de navegación
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import logoGlaze from "../assets/images/LOGOS/Isotipo/Glaze-verde.png";
 import "./Historial.css";
 
-function HistorialPedidos() {
+function HistorialCompras() {
+  const navigate = useNavigate();
   const [pedidos, setPedidos] = useState([]);
+  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Inicializamos la navegación
 
   const usuario = (() => {
     try {
@@ -17,91 +19,187 @@ function HistorialPedidos() {
   })();
 
   useEffect(() => {
-    if (!usuario?.id_usuario) {
-      setError("No se encontró el usuario en sesión.");
+    if (!usuario || !usuario.id_usuario) {
+      setError("Sesión no encontrada. Por favor inicia sesión.");
+      setCargando(false);
       return;
     }
     cargarPedidos();
   }, []);
 
-  const cargarPedidos = async () => {
-    try {
-      const res = await API.get(`/historial/${usuario.id_usuario}`);
-      const data = Array.isArray(res.data) ? res.data : [];
-      setPedidos(data);
-    } catch (error) {
-      console.error("Error al cargar pedidos:", error);
-      setError("Error al cargar el historial.");
-    }
-  };
+  function cargarPedidos() {
+    setCargando(true);
+    setError(null);
+    API.get(`/historial/${usuario.id_usuario}`)
+      .then((res) => {
+        const data = Array.isArray(res.data) ? res.data : [];
+        setPedidos(data);
+      })
+      .catch((err) => {
+        console.error("Error al cargar pedidos:", err);
+        setError("Error al cargar el historial.");
+      })
+      .finally(() => {
+        setCargando(false);
+      });
+  }
 
-  if (error) return (
-    <div className="error-message">
-      <p>⚠️ {error}</p>
-      <button onClick={() => navigate(-1)} className="btn-volver-minimal">Volver</button>
-    </div>
-  );
+  function formatearFecha(fecha) {
+    if (!fecha) return "—";
+    return new Date(fecha).toLocaleDateString("es-CO", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }).toUpperCase();
+  }
 
-  return (
-    <div className="historial-page">
-      {/* BOTÓN VOLVER */}
-      <button onClick={() => navigate(-1)} className="btn-volver-premium">
-        <span className="arrow">←</span> Panel de Control
-      </button>
+  function formatearReferencia(id) {
+    return "GLZ-" + String(id).padStart(5, "0");
+  }
 
-      <div className="historial-header">
-        <h1>Historial de Adquisiciones</h1>
-        <p className="subtitulo-premium">Registro de tus piezas exclusivas</p>
-      </div>
+  // Render sin JSX usando React.createElement
+  const renderHeader = () =>
+    React.createElement(
+      "header",
+      { className: "header-insti" },
+      // Botón volver a la izquierda
+      React.createElement(
+        "button",
+        {
+          className: "btn-back-insti",
+          onClick: () => navigate(-1),
+          "aria-label": "Volver",
+          type: "button"
+        },
+        "←"
+      ),
 
-      <div className="historial-list">
-        {pedidos.length === 0 ? (
-          <div className="empty-history">
-            <p>Aún no has realizado adquisiciones en nuestra selección premium.</p>
-          </div>
-        ) : (
-          pedidos.map((p, index) => (
-            <div className="pedido-card-premium" key={`${p.id_producto}-${index}`}>
-              <div className="card-accent"></div>
-              
-              <div className="pedido-main-info">
-                <div className="id-section">
-                  <span className="label-min">REFERENCIA</span>
-                  <h3>ADQ-{p.id_producto}00</h3>
-                </div>
-                
-                <div className="status-section">
-                  <span className="badge-completado">Confirmado</span>
-                </div>
-              </div>
+      // Logo Glaze y título juntos
+      React.createElement(
+        "div",
+        { className: "header-logo-insti" },
+        React.createElement("img", {
+          src: logoGlaze,
+          alt: "Glaze",
+          className: "logo-insti",
+        }),
+        React.createElement("div", null,
+          React.createElement("h1", { className: "brand-title-insti" }, "Adquisiciones"),
+          React.createElement("div", { className: "accent-line-insti" }),
+          React.createElement("h2", { className: "brand-subtitle-insti" }, "HISTORIAL DE INVERSIONES")
+        )
+      )
+    );
 
-              <div className="pedido-details">
-                <div className="detail-item">
-                  <span className="label-min">FECHA DE ADQUISICIÓN</span>
-                  <p className="fecha-txt">
-                    {new Date(p.fecha_salida).toLocaleDateString('es-ES', {
-                      year: 'numeric', month: 'long', day: 'numeric'
-                    })}
-                  </p>
-                </div>
-                
-                <div className="price-section">
-                  <span className="label-min">INVERSIÓN TOTAL</span>
-                  <h2 className="total-txt">${Number(p.valor).toLocaleString()} USD</h2>
-                </div>
-              </div>
+  if (cargando) {
+    return React.createElement(
+      "div",
+      { className: "historial-page-insti" },
+      renderHeader(),
+      React.createElement("div", { className: "loading-container-insti" }, "Cargando historial...")
+    );
+  }
 
-              <div className="card-footer">
-                <button className="btn-recibo" onClick={() => window.print()}>
-                  Descargar Comprobante
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+  if (error) {
+    return React.createElement(
+      "div",
+      { className: "historial-page-insti" },
+      renderHeader(),
+      React.createElement("div", { className: "status-container-insti" },
+        React.createElement("p", { className: "error-text-insti" }, error),
+        React.createElement(
+          "button",
+          { onClick: () => navigate(-1), className: "btn-volver-minimal-insti", type: "button" },
+          "Volver"
+        )
+      )
+    );
+  }
+
+  if (pedidos.length === 0) {
+    return React.createElement(
+      "div",
+      { className: "historial-page-insti" },
+      renderHeader(),
+      React.createElement(
+        "div",
+        { className: "status-container-insti empty-history-insti" },
+        React.createElement("p", null, "No se registran piezas en su bóveda privada.")
+      )
+    );
+  }
+
+  return React.createElement(
+    "div",
+    { className: "historial-page-insti" },
+    renderHeader(),
+    React.createElement(
+      "div",
+      { className: "lista-pedidos-insti" },
+      pedidos.map((p, index) =>
+        React.createElement(
+          "div",
+          { className: "card-glaze-insti", key: `${p.id_venta || p.id_producto}-${index}` },
+          React.createElement("div", { className: "side-accent-insti" }),
+          React.createElement(
+            "div",
+            { className: "card-padding-insti" },
+            React.createElement(
+              "div",
+              { className: "top-row-insti" },
+              React.createElement("div", null,
+                React.createElement("span", { className: "label-min-insti" }, "REFERENCIA DE VENTA"),
+                React.createElement("h3", { className: "referencia-text-insti" }, formatearReferencia(p.id_venta || p.id_producto))
+              ),
+              React.createElement("span", { className: "badge-luxury-insti" }, "CONFIRMADA")
+            ),
+            React.createElement(
+              "div",
+              { className: "producto-row-insti" },
+              p.imagen &&
+                React.createElement("img", {
+                  src: `http://localhost:3000/uploads/${p.imagen}`,
+                  alt: p.nombre_producto || "Gema Exclusiva",
+                  className: "miniature-insti",
+                }),
+              React.createElement(
+                "div",
+                { className: "producto-text-insti" },
+                React.createElement("span", { className: "label-min-insti" }, "PIEZA ADQUIRIDA"),
+                React.createElement("h4", { className: "nombre-gema-insti" }, (p.nombre_producto || "Gema Exclusiva").toUpperCase()),
+                React.createElement("p", { className: "spec-text-insti" }, (p.color || "Especial") + " • " + (p.peso || "N/A") + " CT")
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "details-row-insti" },
+              React.createElement("div", null,
+                React.createElement("span", { className: "label-min-insti" }, "FECHA DE SALIDA"),
+                React.createElement("p", { className: "info-text-insti" }, formatearFecha(p.fecha_compra || p.fecha_salida))
+              ),
+              React.createElement("div", { className: "price-section-insti" },
+                React.createElement("span", { className: "label-min-insti" }, "VALOR DE ADQUISICIÓN"),
+                React.createElement(
+                  "h3",
+                  { className: "total-text-insti" },
+                  `$${p.valor_compra != null ? Number(p.valor_compra).toLocaleString("es-CO") : "—"}`
+                )
+              )
+            ),
+            React.createElement(
+              "button",
+              {
+                className: "btn-action-insti",
+                onClick: () => window.print(),
+                type: "button"
+              },
+              "📄 DESCARGAR CERTIFICADO DIGITAL"
+            )
+          )
+        )
+      )
+    )
   );
 }
 
-export default HistorialPedidos;
+export default HistorialCompras;

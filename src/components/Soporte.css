@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 40px 20px;
   font-family: 'Inter', sans-serif;
+  background-color: #fcfdfd;
+  color: #0a3d2e;
+  min-height: 100vh;
 }
 
 .btn-regresar-premium {
@@ -12,24 +15,73 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 20px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-regresar-premium:hover {
+  color: #1f6f54;
+  transform: translateX(-5px);
 }
 
 .soporte-header h1 {
   color: #0f5f45;
   font-size: 32px;
   margin-bottom: 5px;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 .subtitulo-premium {
   color: #64748b;
   margin-bottom: 30px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-size: 8px;
 }
 
+/* Contenedor grid */
 .soporte-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 30px;
 }
+
+@media (max-width: 850px) {
+  .soporte-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tarjeta info lateral */
+.soporte-info-card {
+  background: white;
+  border-radius: 15px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #0a3d2e;
+  font-weight: 700;
+}
+
+.icon-wrapper svg {
+  stroke: #1f6f54;
+  width: 28px;
+  height: 28px;
+}
+
+/* Tarjeta formulario */
 
 .soporte-card-main {
   background: white;
@@ -45,11 +97,19 @@
 }
 
 .card-body {
-  padding: 30px;
+  padding: 30px 30px 40px;
+}
+
+.card-body h3 {
+  margin-bottom: 25px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #0a3d2e;
+  font-size: 20px;
 }
 
 .input-group-premium {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .label-min {
@@ -59,15 +119,23 @@
   color: #94a3b8;
   letter-spacing: 1px;
   margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
-.soporte-card-main input, 
+.soporte-card-main input,
 .soporte-card-main textarea {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 14px 16px;
+  border-radius: 8px;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
+  font-size: 14px;
+  color: #0a3d2e;
+  resize: vertical;
+}
+
+.soporte-card-main textarea {
+  min-height: 140px;
 }
 
 .btn-enviar-premium {
@@ -75,12 +143,20 @@
   background: #1f6f54;
   color: white;
   border: none;
-  padding: 15px;
+  padding: 16px 0;
   border-radius: 10px;
   font-weight: 700;
+  letter-spacing: 1.2px;
+  font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-enviar-premium:hover {
+  background-color: #164833;
 }

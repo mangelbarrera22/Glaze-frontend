@@ -1,120 +1,212 @@
+// src/pages/Dashboard.js
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
-  FiShoppingBag, FiStar, FiClock, FiUser, 
-  FiPhoneCall, FiHelpCircle, FiLogOut, FiTrendingUp, FiDollarSign 
+  FiShoppingBag, 
+  FiStar, 
+  FiClock, 
+  FiUser, 
+  FiShield, 
+  FiHelpCircle, 
+  FiLogOut
 } from "react-icons/fi";
 import API from "../services/api";
 import "./Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState("");
-  const [compras, setCompras] = useState(0);
-  const [gasto, setGasto] = useState(0);
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [stats, setStats] = useState({
+    totalCompras: 0,
+    gastoTotal: 0
+  });
+  const [loadingStats, setLoadingStats] = useState(true);
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("usuario"));
-    if (!data) {
-      navigate("/login");
-      return;
-    }
-    setUsuario(data.usuario);
-    cargarEstadisticas(data.id_usuario);
-  }, [navigate]);
+  // ==========================
+  // 🧩 FUNCIÓN CAPITALIZAR
+  // ==========================
+  const capitalizar = (texto) => {
+    if (!texto) return "";
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+  };
 
-  const cargarEstadisticas = async (id_usuario) => {
+  // ==========================
+  // 👤 CARGAR USUARIO
+  // ==========================
+  const cargarUsuario = () => {
     try {
-      const res = await API.get(`/usuario/estadisticas/${id_usuario}`);
-      setCompras(res.data.compras);
-      setGasto(res.data.gasto);
+      const data = localStorage.getItem("usuario");
+
+      if (!data) {
+        navigate("/login");
+        return;
+      }
+
+      const user = JSON.parse(data);
+
+      // 🔥 EXTRAER NOMBRE Y APELLIDO CAPITALIZADOS
+      const nombre = capitalizar(user.primer_nombre || "");
+      const apellido = capitalizar(user.primer_apellido || "");
+
+      setNombreCompleto(`${nombre} ${apellido}`);
+
     } catch (error) {
-      console.log("Error cargando estadísticas");
+      console.log("Error usuario:", error);
+      navigate("/login");
     }
   };
 
+  // ==========================
+  // 📊 CARGAR ESTADÍSTICAS
+  // ==========================
+  const cargarEstadisticas = async () => {
+    try {
+      setLoadingStats(true);
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      const res = await API.get("/dashboard/estadisticas", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setStats({
+        totalCompras: res.data.totalCompras || 0,
+        gastoTotal: res.data.gastoTotal || 0
+      });
+
+    } catch (error) {
+      console.log("Error stats:", error);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
+  // ==========================
+  // 🔄 CARGAR AL MONTAR
+  // ==========================
+  useEffect(() => {
+    cargarUsuario();
+    cargarEstadisticas();
+  }, []);
+
+  // ==========================
+  // 🔓 LOGOUT
+  // ==========================
   const cerrarSesion = () => {
     localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
   return (
-    <div className="dashboard-container">
-      {/* HEADER TIPO BANNER */}
-      <header className="dashboard-header">
+    <div className="dashboard-page">
+      {/* HEADER VERDE */}
+      <header className="dashboard-top-header">
         <div className="header-content">
-          <div className="user-info">
-            <h1>Bienvenido, <span>{usuario}</span></h1>
-            <p>Panel de Control • Esmeraldas Premium</p>
+          <div className="header-left">
+            <p className="header-greeting">Bienvenido, <strong>{nombreCompleto || "Usuario"}</strong></p>
+            <p className="header-subtitle">Panel de Control • Esmeraldas Premium</p>
           </div>
-          <button className="logout-mini" onClick={cerrarSesion} title="Cerrar Sesión">
-            <FiLogOut /> <span>Salir</span>
+          <button className="btn-logout" onClick={cerrarSesion}>
+            <FiLogOut size={18} />
+            <span>Salir</span>
           </button>
         </div>
       </header>
 
+      {/* CONTENIDO PRINCIPAL */}
       <main className="dashboard-main">
-        {/* TARJETAS DE ESTADÍSTICAS */}
-        <section className="stats-container">
-          <div className="stat-card">
-            <div className="stat-icon pink">
-              <FiTrendingUp />
+        {/* 📊 ESTADÍSTICAS */}
+        <div className="stats-grid">
+          <div className="stat-card stat-compras">
+            <div className="stat-icon">
+              <FiShoppingBag size={24} />
             </div>
-            <div className="stat-data">
-              <h3>{compras}</h3>
-              <p>Compras Realizadas</p>
+            <div className="stat-info">
+              <p className="stat-value">
+                {loadingStats ? "..." : stats.totalCompras}
+              </p>
+              <p className="stat-label">Compras Realizadas</p>
             </div>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-icon green">
-              <FiDollarSign />
+          <div className="stat-card stat-gasto">
+            <div className="stat-icon">
+              <span style={{ fontSize: '24px', fontWeight: 'bold' }}>$</span>
             </div>
-            <div className="stat-data">
-              <h3>${gasto.toLocaleString()}</h3>
-              <p>Gasto Total</p>
+            <div className="stat-info">
+              <p className="stat-value">
+                {loadingStats 
+                  ? "..." 
+                  : `$${Number(stats.gastoTotal).toLocaleString()}`
+                }
+              </p>
+              <p className="stat-label">Gasto Total</p>
             </div>
           </div>
-        </section>
+        </div>
 
+        {/* GRID DE OPCIONES */}
         <div className="dashboard-grid">
-          {/* SECCIÓN CATÁLOGO */}
-          <section className="menu-section">
-            <h3 className="section-title">Catálogo y Compras</h3>
-            <div className="menu-grid">
-              <div className="menu-card" onClick={() => navigate("/catalogo")}>
-                <FiShoppingBag className="card-icon" />
-                <h4>Comprar Esmeraldas</h4>
-                <p>Explora piezas exclusivas</p>
+          {/* COLUMNA IZQUIERDA: CATÁLOGO */}
+          <div className="dashboard-section">
+            <h2 className="section-heading">Catálogo y Compras</h2>
+            
+            <div className="option-cards-grid">
+              <div className="option-card" onClick={() => navigate("/catalogo")}>
+                <div className="option-icon">
+                  <FiShoppingBag size={32} />
+                </div>
+                <h3 className="option-title">Comprar Esmeraldas</h3>
+                <p className="option-desc">Explora piezas exclusivas</p>
               </div>
-              <div className="menu-card" onClick={() => navigate("/favoritos")}>
-                <FiStar className="card-icon" />
-                <h4>Favoritos</h4>
-                <p>Lista de deseos</p>
-              </div>
-              <div className="menu-card" onClick={() => navigate("/historialCompras")}>
-                <FiClock className="card-icon" />
-                <h4>Historial</h4>
-                <p>Pedidos anteriores</p>
-              </div>
-            </div>
-          </section>
 
-          {/* SECCIÓN CUENTA */}
-          <section className="menu-section">
-            <h3 className="section-title">Mi Cuenta</h3>
-            <div className="menu-grid">
-              <div className="account-item" onClick={() => navigate("/perfil")}>
-                <FiUser /> <span>Editar Perfil</span>
+              <div className="option-card" onClick={() => navigate("/favoritos")}>
+                <div className="option-icon">
+                  <FiStar size={32} />
+                </div>
+                <h3 className="option-title">Favoritos</h3>
+                <p className="option-desc">Lista de deseos</p>
               </div>
-              <div className="account-item" onClick={() => navigate("/Soporte")}>
-                <FiPhoneCall /> <span>Contactar Soporte</span>
-              </div>
-              <div className="account-item" onClick={() => navigate("/FAQ")}>
-                <FiHelpCircle /> <span>Preguntas Frecuentes</span>
+
+              <div className="option-card" onClick={() => navigate("/HistorialCompras")}>
+                <div className="option-icon">
+                  <FiClock size={32} />
+                </div>
+                <h3 className="option-title">Historial</h3>
+                <p className="option-desc">Pedidos anteriores</p>
               </div>
             </div>
-          </section>
+          </div>
+
+          {/* COLUMNA DERECHA: MI CUENTA */}
+          <div className="dashboard-section">
+            <h2 className="section-heading">Mi Cuenta</h2>
+            
+            <div className="menu-list">
+              <div className="menu-item" onClick={() => navigate("/Perfil")}>
+                <FiUser size={20} />
+                <span>Editar Perfil</span>
+              </div>
+
+              <div className="menu-item" onClick={() => navigate("/soporte")}>
+                <FiShield size={20} />
+                <span>Contactar Soporte</span>
+              </div>
+
+              <div className="menu-item" onClick={() => navigate("/faq")}>
+                <FiHelpCircle size={20} />
+                <span>Preguntas Frecuentes</span>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>

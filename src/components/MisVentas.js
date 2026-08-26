@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./MisVentas.css";
 
-const BASE_URL = "http://192.168.101.60:3000/api";
+const BASE_URL = "glaze-backend-production-ad01.up.railway.app/api";
 
 function MisVentas() {
   const [ventas, setVentas] = useState([]);

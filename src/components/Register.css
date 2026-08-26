@@ -1,192 +1,235 @@
+/* src/pages/Register.css */
+
+/* ========== RESET ========== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ========== CONTAINER PRINCIPAL ========== */
 .register-screen {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at center, #167a5a 0%, #0f5f45 100%);
-  padding: 20px;
-  font-family: 'Segoe UI', sans-serif;
+  background-color: #0a3d2e; /* Verde institucional Glaze */
+  padding: 25px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-.register-card {
-  background: white;
-  width: 100%;
-  max-width: 480px; /* Un poco más ancho que el login para el grid */
-  padding: 35px;
-  border-radius: 25px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-}
-
+/* ========== HEADER CON LOGO ========== */
 .register-header {
   text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo-glaze-register {
+  width: 180px;
+  height: auto;
+  margin-bottom: 5px;
+}
+
+.brand-subtitle-register {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+/* ========== CARD BLANCA ========== */
+.register-card {
+  background: white;
+  border-radius: 2px; /* Bordes cuadrados institucionales */
+  padding: 35px 25px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-title-register {
+  font-size: 18px;
+  color: #0a3d2e;
+  text-align: center;
   margin-bottom: 25px;
+  letter-spacing: 1px;
+  font-weight: 600;
 }
 
-.small-logo {
-  width: 50px;
-  margin-bottom: 10px;
-}
-
-.register-header h2 {
-  color: #1f6f54;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.register-header p {
-  color: #64748b;
-  font-size: 0.9rem;
-}
-
-/* Grid para nombres y apellidos */
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+/* ========== FILAS (2 COLUMNAS) ========== */
+.form-row {
+  display: flex;
+  gap: 16px;
   margin-bottom: 0;
 }
 
-.input-group {
-  position: relative;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
+/* ========== INPUTS ========== */
+.input-container-register {
+  margin-bottom: 18px;
 }
 
-.input-icon {
-  position: absolute;
-  left: 15px;
+.input-container-register.half {
+  flex: 1;
+}
+
+.input-container-register.half-plus {
+  flex: 1.2;
+}
+
+.input-container-register.half-minus {
+  flex: 1;
+}
+
+.input-label-register {
+  display: block;
+  font-size: 9px;
+  font-weight: bold;
   color: #94a3b8;
-  font-size: 18px;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 12px 15px 12px 45px;
-  border-radius: 12px;
-  border: 1.5px solid #e2e8f0;
-  background: #f8fafc;
-  font-size: 14px;
-  transition: all 0.3s;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: #1f6f54;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(31, 111, 84, 0.1);
-}
-
-.btn-register {
-  width: 100%;
-  padding: 14px;
-  background: #1f6f54;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 10px;
   letter-spacing: 1px;
+  margin-bottom: 5px;
 }
 
-.btn-register:hover {
-  background: #15553f;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(31, 111, 84, 0.3);
-}
-
-/* Caja de mensajes mejorada */
-.status-box {
+.input-wrapper-register {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 6px;
+  gap: 8px;
+  position: relative;
+}
+
+.input-icon-register {
+  font-size: 16px;
+  color: #94a3b8;
+}
+
+.input-wrapper-register input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1e293b;
+  background: transparent;
+  padding: 0;
+}
+
+.input-wrapper-register input::placeholder {
+  color: #cbd5e1;
+}
+
+.input-wrapper-register input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* SELECT PERFIL */
+.select-perfil {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1e293b;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-perfil option {
+  background: white;
+  color: #1e293b;
+}
+
+/* ========== MENSAJES ========== */
+.status-box-register {
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 4px solid;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.error-box {
+  background-color: #fff1f2;
+  border-left-color: #e11d48;
+}
+
+.success-box {
+  background-color: #f0fdf4;
+  border-left-color: #166534;
+}
+
+.error-text-register {
+  color: #e11d48;
+  margin: 0;
+}
+
+.success-text-register {
+  color: #166534;
+  margin: 0;
+}
+
+/* ========== BOTÓN PRINCIPAL ========== */
+.boton-principal-register {
+  width: 100%;
+  background-color: #1f6f54;
+  color: white;
+  padding: 16px;
+  margin-top: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.boton-principal-register:hover:not(:disabled) {
+  background-color: #15553f;
+  transform: translateY(-2px);
+}
+
+.boton-principal-register:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ========== FOOTER ========== */
+.footer-link-register {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.footer-text-register {
+  color: #64748b;
   font-size: 13px;
 }
 
-.success-pop {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
-}
-
-.error-shake {
-  background: #fff1f2;
-  color: #e11d48;
-  border: 1px solid #fecdd3;
-  animation: shake 0.3s;
-}
-
-.register-footer {
-  text-align: center;
-  margin-top: 25px;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.register-footer a {
+.link-bold-register {
   color: #1f6f54;
-  text-decoration: none;
   font-weight: 700;
-  margin-left: 5px;
+  text-decoration: none;
 }
 
-.register-footer a:hover {
+.link-bold-register:hover {
   text-decoration: underline;
 }
 
-/* Animaciones */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.select-input {
-  width: 100%;
-  padding: 12px 15px 12px 45px;
-  border-radius: 12px;
-  border: 1.5px solid #e2e8f0;
-  background: #f8fafc;
-  font-size: 14px;
-  color: #64748b; /* Color de placeholder */
-  appearance: none; /* Quita la flecha por defecto de algunos navegadores */
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.select-input:focus {
-  outline: none;
-  border-color: #1f6f54;
-  background: white;
-  color: #334155;
-}
-
-/* Opcional: añadir una flechita personalizada si deseas */
-.input-group::after {
-  content: '';
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .register-card {
+    padding: 25px 20px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .logo-glaze-register {
+    width: 150px;
+  }
 }

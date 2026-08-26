@@ -1,184 +1,271 @@
-.historial-page {
+/* Contenedor principal */
+.historial-page-insti {
   max-width: 900px;
   margin: 0 auto;
-  padding: 60px 20px;
-  background-color: #f8fafc;
+  padding: 40px 25px 80px;
+  background-color: #fcfdfd; /* mismo bg móvil */
   min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  color: #0a3d2e; /* dark */
 }
 
-.historial-header {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.historial-header h1 {
-  font-size: 32px;
-  color: #0f5f45;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.subtitulo-premium {
-  color: #64748b;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-}
-
-.historial-list {
+/* HEADER institucional */
+.header-insti {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 20px;
+}
+
+.btn-back-insti {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: none;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0a3d2e;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btn-back-insti:hover {
+  background-color: #e1e6e9;
+}
+
+.header-logo-insti {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.logo-insti {
+  width: 40px;
+  height: 40px;
+  opacity: 0.8;
+}
+
+.brand-title-insti {
+  font-weight: 300;
+  font-size: 26px;
+  letter-spacing: 1px;
+  color: #0a3d2e;
+  margin: 0;
+}
+
+.accent-line-insti {
+  width: 30px;
+  height: 2px;
+  background-color: #1f6f54;
+  margin: 6px 0;
+}
+
+.brand-subtitle-insti {
+  font-size: 8px;
+  color: #94a3b8;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+/* Estados */
+.status-container-insti {
+  text-align: center;
+  margin-top: 80px;
+  color: #94a3b8;
+}
+
+.error-text-insti {
+  color: #e11d48;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.btn-volver-minimal-insti {
+  background: none;
+  border: none;
+  color: #1f6f54;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+/* Loading */
+.loading-container-insti {
+  margin-top: 100px;
+  font-weight: 600;
+  color: #0a3d2e;
+  font-size: 16px;
+}
+
+/* Lista de pedidos */
+.lista-pedidos-insti {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
   gap: 25px;
 }
 
-.pedido-card-premium {
-  background: white;
-  border-radius: 20px;
-  position: relative;
+
+/* Tarjeta fabricante Glaze adaptada */
+.card-glaze-insti {
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border: 1px solid #f1f5f9;
+  display: flex;
   overflow: hidden;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
-  padding: 30px;
-  transition: transform 0.2s ease;
+  position: relative;
 }
 
-.pedido-card-premium:hover {
-  transform: scale(1.01);
+/* barra lateral */
+.side-accent-insti {
+  width: 4px;
+  background-color: #0a3d2e;
 }
 
-.card-accent {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: #1f6f54;
+/* padding interno */
+.card-padding-insti {
+  flex: 1;
+  padding: 20px;
 }
 
-.pedido-main-info {
+/* CABECERA */
+.top-row-insti {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 25px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.label-min {
-  display: block;
-  font-size: 10px;
+.label-min-insti {
   font-weight: 800;
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
   color: #94a3b8;
-  letter-spacing: 1.2px;
-  margin-bottom: 5px;
   text-transform: uppercase;
 }
 
-.id-section h3 {
-  color: #1e293b;
-  font-size: 20px;
-  font-weight: 700;
+.referencia-text-insti {
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 1px;
   margin: 0;
+  color: #0a3d2e;
 }
 
-.badge-completado {
-  background: #eaf6f1;
-  color: #1f6f54;
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.pedido-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 20px 0;
-  border-top: 1px solid #f1f5f9;
-  border-bottom: 1px solid #f1f5f9;
-  align-items: center;
-}
-
-.fecha-txt {
-  color: #475569;
-  font-size: 15px;
-  margin: 0;
-}
-
-.total-txt {
-  color: #0f5f45;
-  font-size: 24px;
-  font-weight: 800;
-  margin: 0;
-}
-
-.card-footer {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.btn-recibo {
-  background: transparent;
-  color: #1f6f54;
-  border: 1px solid #1f6f54;
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-recibo:hover {
-  background: #1f6f54;
+.badge-luxury-insti {
+  background-color: #0a3d2e;
   color: white;
+  font-weight: 700;
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  text-transform: uppercase;
 }
 
-.empty-history {
-  text-align: center;
+/* Info producto */
+.producto-row-insti {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.miniature-insti {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  margin-right: 15px;
+  background-color: #f9fafb;
+  object-fit: cover;
+}
+
+.producto-text-insti {
+  flex: 1;
+}
+
+.nombre-gema-insti {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin: 0 0 2px;
+  color: #0a3d2e;
+}
+
+.spec-text-insti {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* Detalles */
+.details-row-insti {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.info-text-insti {
+  font-weight: 600;
+  font-size: 12px;
+  color: #0a3d2e;
+  margin: 0;
+}
+
+.price-section-insti {
+  text-align: right;
+}
+
+.total-text-insti {
+  font-weight: 300;
+  font-size: 20px;
+  color: #0a3d2e;
+  margin: 0;
+}
+
+/* Botón acción */
+.btn-action-insti {
+  background-color: #0a3d2e;
+  color: white;
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 1px;
+  height: 45px;
+  border: none;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+.btn-action-insti:hover {
+  background-color: #164833;
+}
+
+/* Estado vacío */
+.empty-history-insti {
+  background-color: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 20px;
   padding: 80px 20px;
   color: #94a3b8;
-  background: #fff;
-  border-radius: 20px;
-  border: 1px dashed #cbd5e1;
-}
-
-.error-message {
-  padding: 40px;
   text-align: center;
-}
-/* Botón Volver Premium */
-.btn-volver-premium {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-  padding: 0;
-}
-
-.btn-volver-premium .arrow {
-  font-size: 18px;
-}
-
-.btn-volver-premium:hover {
-  color: #1f6f54;
-  transform: translateX(-5px);
-}
-
-/* Ajuste para el contenedor en dispositivos móviles */
-@media (max-width: 600px) {
-  .pedido-details {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .price-section {
-    border-top: 1px solid #f1f5f9;
-    padding-top: 15px;
-  }
+  margin-top: 50px;
 }
