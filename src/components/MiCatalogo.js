@@ -120,7 +120,7 @@ function MiCatalogo() {
 
               <div className="card-imagen-wrapper">
                 {p.imagen
-                  ? <img src={`http://localhost:3000/uploads/${p.imagen}`} alt={p.tipo_producto} className="card-imagen" />
+                  ? <img src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${p.imagen}`} alt={p.tipo_producto} className="card-imagen" />
                   : <div className="card-imagen-placeholder">💎</div>
                 }
                 {vendido && <div className="sold-overlay">No Disponible</div>}

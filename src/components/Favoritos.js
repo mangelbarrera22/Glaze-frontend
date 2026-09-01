@@ -131,7 +131,7 @@ function Favoritos() {
                     </div>
 
                     <img
-                      src={`http://localhost:3000/uploads/${p.imagen}`}
+                      src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${p.imagen}`}
                       alt={p.tipo_producto}
                       className="gem-image-fav"
                     />

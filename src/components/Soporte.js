@@ -54,7 +54,7 @@ export default function Soporte() {
     if (!validar()) return;
 
     try {
-      await axios.post("http://localhost:3000/api/soporte", {
+      await axios.post("http://glaze-backend-production-ad01.up.railway.app/api/soporte", {
         id_usuario: userId,
         asunto: form.asunto.trim(),
         mensaje: form.mensaje.trim()

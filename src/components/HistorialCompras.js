@@ -158,7 +158,7 @@ function HistorialCompras() {
               { className: "producto-row-insti" },
               p.imagen &&
                 React.createElement("img", {
-                  src: `http://localhost:3000/uploads/${p.imagen}`,
+                  src: `http://glaze-backend-production-ad01.up.railway.app/uploads/${p.imagen}`,
                   alt: p.nombre_producto || "Gema Exclusiva",
                   className: "miniature-insti",
                 }),

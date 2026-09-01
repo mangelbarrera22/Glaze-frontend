@@ -66,7 +66,7 @@ function CrearProducto() {
       console.log("TOKEN ENVIADO:", token); // 🔍 DEBUG
 
       const res = await axios.post(
-        "http://localhost:3000/api/productos",
+        "http://glaze-backend-production-ad01.up.railway.app/api/productos",
         data,
         {
           headers: {

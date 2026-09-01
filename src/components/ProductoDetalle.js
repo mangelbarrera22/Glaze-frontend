@@ -189,7 +189,7 @@ function ProductoDetalle() {
             <div className="watermark-detalle"></div>
             <Zoom>
               <img
-                src={`http://localhost:3000/uploads/${producto.imagen}`}
+                src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${producto.imagen}`}
                 alt={producto.tipo_producto}
                 className="imagen-principal-glaze"
               />
@@ -283,7 +283,7 @@ function ProductoDetalle() {
           <div className="certificado-content">
             <Zoom>
               <img
-                src={`http://localhost:3000/uploads/${producto.certificado}`}
+                src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${producto.certificado}`}
                 alt="certificado"
                 className="certificado-imagen"
               />
