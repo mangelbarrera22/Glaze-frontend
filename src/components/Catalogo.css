@@ -206,8 +206,20 @@
   background-position: center;
   opacity: 0.05;
   transform: rotate(-15deg);
+  z-index: 0;
 }
 
+/* La imagen se adapta al cuadro sin importar su tamaño/proporción original */
+.producto-imagen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  z-index: 1;
+}
+
+/* El badge de certificado siempre va por encima de la imagen, sin importar su tamaño o fondo */
 .badge-certificado {
   position: absolute;
   top: 15px;
@@ -218,15 +230,7 @@
   font-weight: 700;
   letter-spacing: 1.5px;
   padding: 4px 12px;
-}
-
-/* La imagen se adapta al cuadro sin importar su tamaño/proporción original */
-.producto-imagen {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* ========== SECCIÓN INFO ========== */
