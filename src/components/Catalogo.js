@@ -121,7 +121,7 @@ function Catalogo() {
                   <div className="watermark-bg"></div>
                   <div className="badge-certificado">CERTIFICADO</div>
                   <img
-                    src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${producto.imagen}`}
+                    src={producto.imagen}
                     alt={producto.tipo_producto}
                     className="producto-imagen"
                   />
