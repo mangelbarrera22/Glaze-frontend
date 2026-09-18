@@ -186,14 +186,14 @@ function ProductoDetalle() {
       <div className="detalle-grid-glaze">
         <div className="imagen-section">
           <div className="imagen-wrapper">
-            <div className="watermark-detalle"></div>
             <Zoom>
               <img
-                src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${producto.imagen}`}
+                src={producto.imagen}
                 alt={producto.tipo_producto}
                 className="imagen-principal-glaze"
               />
             </Zoom>
+            <img src={logoGlaze} alt="" className="watermark-detalle" />
           </div>
         </div>
 
@@ -206,7 +206,9 @@ function ProductoDetalle() {
               </div>
             </div>
             <h1 className="titulo-pieza">{(producto.tipo_producto || "PIEZA").toUpperCase()}</h1>
-            <p className="coleccion-tag">COLECCIÓN: {(producto.vendedor || "GLAZE").toUpperCase()}</p>
+            <p className="coleccion-tag">
+              VENDEDOR: {(producto.nombre_vendedor || "GLAZE").toUpperCase()}
+            </p>
           </div>
 
           <div className="separador-glaze"></div>
@@ -283,7 +285,7 @@ function ProductoDetalle() {
           <div className="certificado-content">
             <Zoom>
               <img
-                src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${producto.certificado}`}
+                src={producto.certificado}
                 alt="certificado"
                 className="certificado-imagen"
               />

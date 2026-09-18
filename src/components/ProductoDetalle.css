@@ -31,6 +31,7 @@
   font-size: 14px;
   margin-bottom: 40px;
   transition: all 0.3s ease;
+  border-radius: 24px;
 }
 
 .btn-back-detalle:hover {
@@ -55,33 +56,37 @@
 }
 
 .imagen-wrapper {
-  background: #fcfcfc;
+  background: #f8fafc;
   padding: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   min-height: 400px;
-}
-
-.watermark-detalle {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background-image: url('../assets/images/android-icon-background.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.05;
-  transform: rotate(-15deg);
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
 .imagen-principal-glaze {
   max-width: 100%;
-  width: 320px;
+  width: 100%;
+  max-height: 400px;
   height: auto;
+  object-fit: contain;
   z-index: 1;
   cursor: zoom-in;
+}
+
+.watermark-detalle {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  width: 35px;
+  height: 35px;
+  opacity: 0.08;
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* ========== COLUMNA DERECHA: INFO ========== */
@@ -110,10 +115,11 @@
 }
 
 .estado-badge {
-  padding: 4px 12px;
+  padding: 5px 10px;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1px;
+  border-radius: 4px;
 }
 
 .estado-badge.disponible {
@@ -138,6 +144,8 @@
   font-size: 10px;
   color: #64748b;
   margin: 0;
+  letter-spacing: 1px;
+  font-weight: 500;
 }
 
 .separador-glaze {
@@ -175,16 +183,20 @@
 
 /* PRECIO */
 .precio-box-glaze {
-  background: #fbfcfc;
-  padding: 20px;
-  margin: 20px 0;
+  background: #ffffff;
+  padding: 24px;
+  margin: 30px 0 0 0;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
 }
 
 .precio-heading {
   font-size: 9px;
   color: #94a3b8;
-  letter-spacing: 1px;
-  margin: 0 0 5px 0;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
 }
 
 .precio-valor {
@@ -233,45 +245,52 @@
 /* ACCIONES FOOTER */
 .acciones-footer-glaze {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-top: 30px;
   padding-top: 20px;
   border-top: 1px solid #f1f5f9;
+  align-items: center;
 }
 
 .btn-principal-glaze {
   flex: 1;
-  background: #1f6f54;
+  background: #0a3d2e;
   color: white;
   border: none;
-  height: 50px;
+  height: 52px;
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  border-radius: 26px;
+  box-shadow: 0 4px 10px rgba(10, 61, 46, 0.2);
 }
 
 .btn-principal-glaze:hover:not(.disabled) {
   background: #15553f;
+  box-shadow: 0 6px 14px rgba(10, 61, 46, 0.25);
 }
 
 .btn-principal-glaze.disabled {
   background: #cbd5e1;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn-secundario-glaze {
   width: 50px;
   height: 50px;
   background: white;
-  border: 1px solid #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: #0a3d2e;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .btn-secundario-glaze:hover {
@@ -298,13 +317,23 @@
 
 .certificado-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
+  padding: 24px;
+  background: #fbfcfc;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
 }
 
 .certificado-imagen {
-  width: 150px;
-  border: 1px solid #f1f5f9;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+  border-radius: 8px;
   cursor: zoom-in;
 }
 
@@ -312,6 +341,7 @@
   font-size: 12px;
   color: #94a3b8;
   margin: 0;
+  letter-spacing: 0.5px;
 }
 
 /* ========== RESPONSIVE ========== */
@@ -370,12 +400,14 @@
 /* 🔥 FAVORITO ACTIVO (ESTRELLA RELLENA) */
 .btn-secundario-glaze.favorito-activo {
   background: #fffbeb;
-  border-color: #093326;
-  color: #0a3d2e;
+  border-color: #fbbf24;
+  color: #f59e0b;
 }
 
 .btn-secundario-glaze.favorito-activo:hover {
-  background: #ffffff;
+  background: #fef3c7;
+  border-color: #fbbf24;
+  color: #f59e0b;
 }
 
 /* ========== RESPONSIVE HEADER ========== */
