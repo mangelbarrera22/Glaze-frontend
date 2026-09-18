@@ -1,7 +1,7 @@
 // src/pages/Register.js
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiMail, FiPhone, FiLock } from "react-icons/fi";
+import { FiMail, FiPhone, FiLock, FiUser } from "react-icons/fi";
 import API from "../services/api";
 import "./Register.css";
 import logoGlaze from "../assets/images/LOGOS/Imagotipo/Glaze-blanco.png";
@@ -12,11 +12,16 @@ function Register() {
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState(false);
 
+  const [usuarioDisponible, setUsuarioDisponible] = useState(null);
+  const [verificandoUsuario, setVerificandoUsuario] = useState(false);
+  const usuarioTimer = useRef(null);
+
   const [form, setForm] = useState({
     primer_nombre: "",
     segundo_nombre: "",
     primer_apellido: "",
     segundo_apellido: "",
+    usuario: "",
     correo: "",
     celular: "",
     tipo_usuario: "comprador",
@@ -24,8 +29,33 @@ function Register() {
     confirmarPassword: ""
   });
 
+  const verificarUsuario = async (usuario) => {
+    if (!usuario.trim()) {
+      setUsuarioDisponible(null);
+      return;
+    }
+
+    try {
+      setVerificandoUsuario(true);
+      const res = await API.get(`/auth/verificar-usuario/${usuario}`);
+      setUsuarioDisponible(res.data.disponible);
+    } catch (e) {
+      setUsuarioDisponible(null);
+    } finally {
+      setVerificandoUsuario(false);
+    }
+  };
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    if (name === "usuario") {
+      clearTimeout(usuarioTimer.current);
+      usuarioTimer.current = setTimeout(() => {
+        verificarUsuario(value);
+      }, 500);
+    }
   };
 
   const handleRegister = async (e) => {
@@ -37,6 +67,12 @@ function Register() {
       return;
     }
 
+    if (usuarioDisponible === false) {
+      setError(true);
+      setMensaje("Ese nombre de usuario ya existe");
+      return;
+    }
+
     setLoading(true);
     setMensaje("");
     setError(false);
@@ -45,7 +81,7 @@ function Register() {
       const res = await API.post("/auth/register", form);
       setError(false);
       setMensaje(`${res.data.mensaje} | Usuario: ${res.data.usuario}`);
-      
+
       // Opcional: redirigir al login después de 10 segundos
       setTimeout(() => navigate("/login"), 10000);
     } catch (err) {
@@ -60,12 +96,11 @@ function Register() {
     <div className="register-screen">
       {/* HEADER CON LOGO GLAZE */}
       <div className="register-header">
-       
-            <img 
-  src={logoGlaze} 
-  alt="Glaze" 
-  className="logo-glaze"
-/>  
+        <img
+          src={logoGlaze}
+          alt="Glaze"
+          className="logo-glaze-register"
+        />
         <p className="brand-subtitle-register">CREAR CUENTA EXCLUSIVA</p>
       </div>
 
@@ -130,6 +165,38 @@ function Register() {
                 />
               </div>
             </div>
+          </div>
+
+          {/* NOMBRE DE USUARIO */}
+          <div className="input-container-register">
+            <label className="input-label-register">NOMBRE DE USUARIO</label>
+            <div className="input-wrapper-register">
+              <FiUser className="input-icon-register" />
+              <input
+                type="text"
+                name="usuario"
+                placeholder="Ej. miguelbarrera"
+                autoCapitalize="none"
+                value={form.usuario}
+                onChange={handleChange}
+                disabled={loading}
+                required
+              />
+            </div>
+
+            {verificandoUsuario && (
+              <p className="usuario-status-register checking">Verificando...</p>
+            )}
+            {!verificandoUsuario && usuarioDisponible === true && (
+              <p className="usuario-status-register available">
+                ✓ Nombre de usuario disponible
+              </p>
+            )}
+            {!verificandoUsuario && usuarioDisponible === false && (
+              <p className="usuario-status-register taken">
+                ✕ Ese nombre de usuario ya existe
+              </p>
+            )}
           </div>
 
           {/* CORREO */}
@@ -222,10 +289,10 @@ function Register() {
           )}
 
           {/* BOTÓN PRINCIPAL */}
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="boton-principal-register"
-            disabled={loading}
+            disabled={loading || usuarioDisponible === false}
           >
             {loading ? "PROCESANDO..." : "REGISTRARSE"}
           </button>

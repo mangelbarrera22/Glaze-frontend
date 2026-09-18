@@ -143,6 +143,25 @@
   color: #1e293b;
 }
 
+/* ========== ESTADO NOMBRE DE USUARIO ========== */
+.usuario-status-register {
+  margin-top: 5px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.usuario-status-register.checking {
+  color: #64748b;
+}
+
+.usuario-status-register.available {
+  color: #16a34a;
+}
+
+.usuario-status-register.taken {
+  color: #dc2626;
+}
+
 /* ========== MENSAJES ========== */
 .status-box-register {
   padding: 10px;
@@ -223,13 +242,13 @@
   .register-card {
     padding: 25px 20px;
   }
-  
+
+  .logo-glaze-register {
+    width: 150px;
+  }
+
   .form-row {
     flex-direction: column;
     gap: 0;
-  }
-  
-  .logo-glaze-register {
-    width: 150px;
   }
 }
