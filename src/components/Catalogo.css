@@ -192,6 +192,8 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .watermark-bg {
@@ -218,10 +220,12 @@
   padding: 4px 12px;
 }
 
+/* La imagen se adapta al cuadro sin importar su tamaño/proporción original */
 .producto-imagen {
-  width: 160px;
-  height: 160px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  object-position: center;
   z-index: 1;
 }
 
