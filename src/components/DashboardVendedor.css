@@ -119,6 +119,8 @@
 
 .stat-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .stat-value {
@@ -126,12 +128,14 @@
   font-weight: 600;
   color: #1e293b;
   margin: 0 0 4px 0;
+  text-align: center;
 }
 
 .stat-label {
   font-size: 13px;
   color: #64748b;
   margin: 0;
+  text-align: left;
 }
 
 /* ========== GRID PRINCIPAL (2 COLUMNAS) ========== */

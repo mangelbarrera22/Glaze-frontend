@@ -16,8 +16,14 @@ import "./DashboardVendedor.css";
 function DashboardVendedor() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState(null);
+  const [nombreCompleto, setNombreCompleto] = useState("");
   const [stats, setStats] = useState({ totalVentas: 0, piezasActivas: 0 });
   const [loadingStats, setLoadingStats] = useState(true);
+
+  const capitalizar = (texto) => {
+    if (!texto) return "";
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("usuario");
@@ -28,7 +34,13 @@ function DashboardVendedor() {
       return;
     }
 
-    setUsuario(JSON.parse(storedUser));
+    const user = JSON.parse(storedUser);
+    setUsuario(user);
+
+    const nombre = capitalizar(user.primer_nombre || "");
+    const apellido = capitalizar(user.primer_apellido || "");
+    setNombreCompleto(`${nombre} ${apellido}`.trim());
+
     cargarEstadisticas(token);
   }, [navigate]);
 
@@ -73,7 +85,7 @@ function DashboardVendedor() {
         <div className="header-content">
           <div className="header-left">
             <p className="header-greeting">
-              Socio Estratégico, <strong>{usuario.usuario || "Especialista"}</strong>
+              Socio Estratégico, <strong>{nombreCompleto || usuario.usuario || "Especialista"}</strong>
             </p>
             <p className="header-subtitle">VENDEDOR AUTORIZADO • GLAZE</p>
           </div>
