@@ -1,46 +1,55 @@
-import React, { useEffect, useState } from "react";
+// src/pages/DashboardVendedor.js
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  FiPlusSquare,
+  FiBox,
+  FiDollarSign,
+  FiUser,
+  FiShield,
+  FiHelpCircle,
+  FiLogOut
+} from "react-icons/fi";
 import API from "../services/api";
-import { FiPlusSquare, FiBox, FiDollarSign, FiUser, FiShield, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import "./DashboardVendedor.css";
 
 function DashboardVendedor() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState(null);
   const [stats, setStats] = useState({ totalVentas: 0, piezasActivas: 0 });
-  const [loading, setLoading] = useState(true);
+  const [loadingStats, setLoadingStats] = useState(true);
 
   useEffect(() => {
-    async function cargarDatos() {
-      const storedUser = localStorage.getItem("usuario");
-      const token = localStorage.getItem("token");
-      if (!storedUser || !token) {
-        navigate("/login");
-        return;
-      }
-      setUsuario(JSON.parse(storedUser));
+    const storedUser = localStorage.getItem("usuario");
+    const token = localStorage.getItem("token");
 
-      try {
-        setLoading(true);
-        const res = await API.get("/vendedores/stats", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        if (res.data.ok) {
-          setStats({
-            totalVentas: res.data.totalVentas || 0,
-            piezasActivas: res.data.piezasActivas || 0
-          });
-        }
-      } catch (error) {
-        console.error("Error cargando estadísticas:", error);
-      } finally {
-        setLoading(false);
-      }
+    if (!storedUser || !token) {
+      navigate("/login");
+      return;
     }
-    cargarDatos();
+
+    setUsuario(JSON.parse(storedUser));
+    cargarEstadisticas(token);
   }, [navigate]);
+
+  const cargarEstadisticas = async (token) => {
+    try {
+      setLoadingStats(true);
+      const res = await API.get("/vendedores/stats", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.data.ok) {
+        setStats({
+          totalVentas: res.data.totalVentas || 0,
+          piezasActivas: res.data.piezasActivas || 0
+        });
+      }
+    } catch (error) {
+      console.error("Error cargando estadísticas:", error);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
 
   const cerrarSesion = () => {
     localStorage.removeItem("usuario");
@@ -48,77 +57,124 @@ function DashboardVendedor() {
     navigate("/login");
   };
 
-  const createOptionCard = (IconComp, title, desc, onClick) => {
-    return React.createElement(
-      "div",
-      { className: "option-card", onClick, role: "button", tabIndex: 0, onKeyPress: e => { if (e.key === "Enter") onClick(); } },
-      React.createElement("div", { className: "option-icon" },
-        React.createElement(IconComp, { size: 32 })
-      ),
-      React.createElement("h3", { className: "option-title" }, title),
-      React.createElement("p", { className: "option-desc" }, desc)
-    );
-  };
-
-  const createMenuItem = (IconComp, text, onClick) => {
-    return React.createElement(
-      "div",
-      {
-        className: "menu-item",
-        onClick,
-        role: "button",
-        tabIndex: 0,
-        onKeyPress: e => { if (e.key === "Enter") onClick(); }
-      },
-      React.createElement(IconComp, { size: 20 }),
-      React.createElement("span", null, text)
-    );
-  };
-
   if (!usuario) {
-    return React.createElement("div", { className: "loading-container" }, "Cargando...");
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando panel de socio...</p>
+      </div>
+    );
   }
 
-  return React.createElement(
-    "div",
-    { className: "dashboard-vendedor-page" },
+  return (
+    <div className="dashboard-page">
+      {/* HEADER VERDE INSTITUCIONAL */}
+      <header className="dashboard-top-header">
+        <div className="header-content">
+          <div className="header-left">
+            <p className="header-greeting">
+              Socio Estratégico, <strong>{usuario.usuario || "Especialista"}</strong>
+            </p>
+            <p className="header-subtitle">VENDEDOR AUTORIZADO • GLAZE</p>
+          </div>
+          <button
+            className="btn-logout"
+            onClick={cerrarSesion}
+            aria-label="Cerrar sesión"
+            type="button"
+          >
+            <FiLogOut size={18} />
+            <span>Salir</span>
+          </button>
+        </div>
+      </header>
 
-    React.createElement("header", { className: "header" },
-      React.createElement("div", { className: "user-info" },
-        React.createElement("p", { className: "welcome" }, "Socio Estratégico,"),
-        React.createElement("h2", { className: "username" }, usuario.usuario || "Especialista"),
-        React.createElement("span", { className: "role-tag" }, "VENDEDOR AUTORIZADO • EMERALD TRADE")
-      ),
-      React.createElement("button", { className: "logout-btn", onClick: cerrarSesion, "aria-label": "Cerrar sesión", type: "button" },
-        React.createElement(FiLogOut, { size: 18 })
-      )
-    ),
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="dashboard-main">
+        {/* ESTADÍSTICAS */}
+        <div className="stats-grid">
+          <div className="stat-card stat-inventario">
+            <div className="stat-icon">
+              <FiBox size={24} />
+            </div>
+            <div className="stat-info">
+              <p className="stat-value">
+                {loadingStats ? "..." : `${stats.piezasActivas} PCS`}
+              </p>
+              <p className="stat-label">Inventario Activo</p>
+            </div>
+          </div>
 
-    React.createElement("section", { className: "stats-section" },
-      React.createElement("div", { className: "stat-card" },
-        React.createElement("span", { className: "stat-label" }, "INVENTARIO ACTIVO"),
-        React.createElement("span", { className: "stat-value" }, loading ? "..." : `${stats.piezasActivas} PCS`)
-      ),
-      React.createElement("div", { className: "stat-card stat-highlight" },
-        React.createElement("span", { className: "stat-label" }, "VENTAS TOTALES"),
-        React.createElement("span", { className: "stat-value" }, loading ? "..." : `$${Number(stats.totalVentas).toLocaleString()}`)
-      )
-    ),
+          <div className="stat-card stat-ventas">
+            <div className="stat-icon">
+              <FiDollarSign size={24} />
+            </div>
+            <div className="stat-info">
+              <p className="stat-value">
+                {loadingStats ? "..." : `$${Number(stats.totalVentas).toLocaleString()}`}
+              </p>
+              <p className="stat-label">Ventas Totales</p>
+            </div>
+          </div>
+        </div>
 
-    React.createElement("section", { className: "menu-section" },
-      React.createElement("h3", { className: "menu-title" }, "Gestión de Esmeraldas"),
+        {/* GRID PRINCIPAL (2 COLUMNAS) */}
+        <div className="dashboard-grid">
+          {/* COLUMNA IZQUIERDA: GESTIÓN DE ESMERALDAS */}
+          <div className="dashboard-section">
+            <h2 className="section-heading">Gestión de Esmeraldas</h2>
 
-      React.createElement("div", { className: "options-grid" },
-        createOptionCard(FiPlusSquare, "Registrar Nueva Gema", "Añadir activos a la bóveda", () => navigate("/publicar")),
-        createOptionCard(FiBox, "Inventario Glaze", "Administrar piezas publicadas", () => navigate("/MiCatalogo")),
-        createOptionCard(FiDollarSign, "Liquidaciones", "Historial de ventas y pagos", () => navigate("/MisVentas"))
-      ),
+            <div className="option-cards-grid">
+              <div className="option-card" onClick={() => navigate("/publicar")}>
+                <div className="option-icon">
+                  <FiPlusSquare size={32} />
+                </div>
+                <h3 className="option-title">Registrar Nueva Gema</h3>
+                <p className="option-desc">Añadir activos a la bóveda</p>
+              </div>
 
-      React.createElement("h3", { className: "menu-title", style: { marginTop: 40 } }, "Seguridad y Cuenta"),
-      createMenuItem(FiUser, "Perfil Profesional", () => navigate("/perfil")),
-      createMenuItem(FiShield, "Soporte Técnico", () => navigate("/soporte")),
-      createMenuItem(FiHelpCircle, "Preguntas Frecuentes", () => navigate("/faq"))
-    )
+              <div className="option-card" onClick={() => navigate("/MiCatalogo")}>
+                <div className="option-icon">
+                  <FiBox size={32} />
+                </div>
+                <h3 className="option-title">Inventario Glaze</h3>
+                <p className="option-desc">Administrar piezas publicadas</p>
+              </div>
+
+              <div className="option-card" onClick={() => navigate("/MisVentas")}>
+                <div className="option-icon">
+                  <FiDollarSign size={32} />
+                </div>
+                <h3 className="option-title">Liquidaciones</h3>
+                <p className="option-desc">Historial de ventas y pagos</p>
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMNA DERECHA: SEGURIDAD Y CUENTA */}
+          <div className="dashboard-section">
+            <h2 className="section-heading">Seguridad y Cuenta</h2>
+
+            <div className="menu-list">
+              <div className="menu-item" onClick={() => navigate("/perfil")}>
+                <FiUser size={20} />
+                <span>Perfil Profesional</span>
+              </div>
+
+              <div className="menu-item" onClick={() => navigate("/soporte")}>
+                <FiShield size={20} />
+                <span>Soporte Técnico</span>
+              </div>
+
+              <div className="menu-item" onClick={() => navigate("/faq")}>
+                <FiHelpCircle size={20} />
+                <span>Preguntas Frecuentes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
 

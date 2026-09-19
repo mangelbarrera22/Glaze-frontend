@@ -1,76 +1,80 @@
-.dashboard-vendedor-page {
+/* src/pages/DashboardVendedor.css */
+
+/* ========== PÁGINA COMPLETA ========== */
+.dashboard-page {
   min-height: 100vh;
   background-color: #f8fafc;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px;
-  color: #1e293b;
 }
 
-/* HEADER VERDE INSTITUCIONAL */
-.header {
+/* ========== HEADER VERDE INSTITUCIONAL ========== */
+.dashboard-top-header {
   background-color: #0a3d2e;
   padding: 24px 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  color: white;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
+.header-left {
+  flex: 1;
 }
 
-.welcome {
-  font-weight: 300;
+.header-greeting {
+  color: white;
   font-size: 20px;
   margin: 0 0 4px 0;
-  letter-spacing: 0.5px;
+  font-weight: 300;
 }
 
-.username {
+.header-greeting strong {
   font-weight: 600;
-  font-size: 28px;
+}
+
+.header-subtitle {
+  color: #b8a355; /* dorado institucional, distingue al vendedor del comprador */
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
   margin: 0;
 }
 
-.role-tag {
-  font-weight: 700;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: #b8a355;
-  margin-top: 5px;
-}
-
-.logout-btn {
+.btn-logout {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   padding: 10px 20px;
-  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 14px;
   transition: all 0.3s ease;
 }
 
-.logout-btn:hover {
+.btn-logout:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* CONTENIDO PRINCIPAL */
-.stats-section {
+/* ========== CONTENIDO PRINCIPAL ========== */
+.dashboard-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* ========== ESTADÍSTICAS (2 COLUMNAS) ========== */
+.stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  margin-top: 30px;
   margin-bottom: 40px;
 }
 
@@ -80,39 +84,63 @@
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-left: 4px solid #1f6f54;
+  align-items: center;
+  gap: 20px;
+  border-left: 4px solid;
 }
 
-.stat-highlight {
+.stat-inventario {
+  border-left-color: #1f6f54;
+}
+
+.stat-ventas {
   border-left-color: #b8a355;
 }
 
-.stat-label {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-inventario .stat-icon {
+  background: #ecfdf5;
+  color: #1f6f54;
+}
+
+.stat-ventas .stat-icon {
+  background: #fdf6e3;
+  color: #92722a;
+}
+
+.stat-info {
+  flex: 1;
 }
 
 .stat-value {
   font-size: 28px;
   font-weight: 600;
   color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #64748b;
   margin: 0;
 }
 
-/* GRID PRINCIPAL (2 COLUMNAS) */
+/* ========== GRID PRINCIPAL (2 COLUMNAS) ========== */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 30px;
 }
 
-/* SECCIONES */
 .dashboard-section {
   background: white;
   padding: 30px;
@@ -128,8 +156,8 @@
   letter-spacing: 0.3px;
 }
 
-/* GRID OPCIONES EN DASHBOARD VENDEDOR */
-.options-grid {
+/* ========== CARDS GRANDES (GESTIÓN DE ESMERALDAS) ========== */
+.option-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -161,9 +189,9 @@
   background: white;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 16px;
+  justify-content: center;
+  margin: 0 auto 16px auto;
   color: #1f6f54;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -181,7 +209,7 @@
   margin: 0;
 }
 
-/* MENU SIMPLE DERECHA */
+/* ========== LISTA SIMPLE (SEGURIDAD Y CUENTA) ========== */
 .menu-list {
   display: flex;
   flex-direction: column;
@@ -209,30 +237,62 @@
   color: #1f6f54;
 }
 
-.menu-icon {
-  color: #1f6f54;
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
+/* ========== ESTADO DE CARGA ========== */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  color: #64748b;
+  font-size: 14px;
 }
 
-/* RESPONSIVE */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #1f6f54;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========== RESPONSIVE ========== */
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-  
-  .options-grid {
+
+  .option-cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .header {
+  .dashboard-top-header {
     padding: 20px;
   }
 
-  .stats-section {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .btn-logout {
+    align-self: flex-start;
+  }
+
+  .dashboard-main {
+    padding: 20px;
+  }
+
+  .stats-grid {
     grid-template-columns: 1fr;
   }
 
@@ -240,7 +300,27 @@
     grid-template-columns: 1fr;
   }
 
-  .options-grid {
+  .option-cards-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .header-greeting {
+    font-size: 18px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .option-icon {
+    width: 56px;
+    height: 56px;
   }
 }
