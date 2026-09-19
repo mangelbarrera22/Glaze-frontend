@@ -57,10 +57,6 @@
 
 .imagen-wrapper {
   background: #f8fafc;
-  padding: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
   min-height: 400px;
   border-radius: 30px;
@@ -68,10 +64,40 @@
   overflow: hidden;
 }
 
+/* ========== TRACK DESLIZANTE PRODUCTO / CERTIFICADO ========== */
+.imagen-track {
+  display: flex;
+  width: 100%;
+  height: 400px;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.imagen-track.dos-slides {
+  width: 200%;
+}
+
+.imagen-track.dos-slides.show-certificado {
+  transform: translateX(-50%);
+}
+
+.imagen-slide {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.imagen-track.dos-slides .imagen-slide {
+  width: 50%;
+}
+
 .imagen-principal-glaze {
   max-width: 100%;
   width: 100%;
-  max-height: 400px;
+  max-height: 100%;
   height: auto;
   object-fit: contain;
   z-index: 1;
@@ -87,6 +113,46 @@
   opacity: 0.08;
   z-index: 2;
   pointer-events: none;
+}
+
+/* ========== TOGGLE PRODUCTO / CERTIFICADO ========== */
+.imagen-toggle-glaze {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.toggle-btn-glaze {
+  padding: 9px 22px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn-glaze:hover {
+  border-color: #1f6f54;
+  color: #1f6f54;
+}
+
+.toggle-btn-glaze.active {
+  background: #0a3d2e;
+  color: white;
+  border-color: #0a3d2e;
+}
+
+.certificado-caption {
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
 }
 
 /* ========== COLUMNA DERECHA: INFO ========== */
@@ -299,49 +365,21 @@
   color: #1f6f54;
 }
 
-/* ========== CERTIFICADO (ABAJO) ========== */
-.certificado-section-glaze {
-  max-width: 1200px;
-  margin: 60px auto 0 auto;
-  background: white;
-  padding: 30px;
-  border-top: 1px solid #f1f5f9;
+.btn-secundario-glaze:active {
+  transform: scale(0.92);
 }
 
-.certificado-section-glaze h3 {
-  font-size: 14px;
-  color: #0a3d2e;
-  margin-bottom: 20px;
-  font-weight: 600;
+/* 🔥 FAVORITO ACTIVO (ESTRELLA AMARILLA) */
+.btn-secundario-glaze.favorito-activo {
+  background: #fffbeb;
+  border-color: #fbbf24;
+  color: #f59e0b;
 }
 
-.certificado-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 24px;
-  background: #fbfcfc;
-  border: 1px solid #f1f5f9;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
-}
-
-.certificado-imagen {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  max-height: 450px;
-  object-fit: contain;
-  border-radius: 8px;
-  cursor: zoom-in;
-}
-
-.certificado-content p {
-  font-size: 12px;
-  color: #94a3b8;
-  margin: 0;
-  letter-spacing: 0.5px;
+.btn-secundario-glaze.favorito-activo:hover {
+  background: #fef3c7;
+  border-color: #fbbf24;
+  color: #f59e0b;
 }
 
 /* ========== RESPONSIVE ========== */
@@ -361,7 +399,11 @@
     padding: 20px;
   }
 
-  .imagen-wrapper {
+  .imagen-track {
+    height: 320px;
+  }
+
+  .imagen-slide {
     padding: 30px;
   }
 
@@ -373,6 +415,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 /* ========== HEADER CON LOGO ========== */
 .detalle-header-row {
   display: flex;
@@ -395,19 +438,6 @@
 
 .logo-detalle-glaze:hover {
   opacity: 1;
-}
-
-/* 🔥 FAVORITO ACTIVO (ESTRELLA RELLENA) */
-.btn-secundario-glaze.favorito-activo {
-  background: #fffbeb;
-  border-color: #fbbf24;
-  color: #f59e0b;
-}
-
-.btn-secundario-glaze.favorito-activo:hover {
-  background: #fef3c7;
-  border-color: #fbbf24;
-  color: #f59e0b;
 }
 
 /* ========== RESPONSIVE HEADER ========== */

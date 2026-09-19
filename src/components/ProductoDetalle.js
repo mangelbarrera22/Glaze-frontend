@@ -15,6 +15,7 @@ function ProductoDetalle() {
   const [producto, setProducto] = useState(null);
   const [loadingAction, setLoadingAction] = useState(false);
   const [esFavorito, setEsFavorito] = useState(false);
+  const [vistaImagen, setVistaImagen] = useState("producto"); // "producto" | "certificado"
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   useEffect(() => {
@@ -44,26 +45,29 @@ function ProductoDetalle() {
     }
   };
 
-  const agregarFavorito = async () => {
+  // 🔥 TOGGLE FAVORITO: solo cambia el color de la estrella, sin anuncios
+  const toggleFavorito = async () => {
     if (!usuario) {
       alert("Inicie sesión para guardar en favoritos");
       return;
     }
+
+    const nuevoEstado = !esFavorito;
+    setEsFavorito(nuevoEstado); // respuesta visual inmediata
+
     try {
-      const res = await API.post("/favoritos", {
-        id_usuario: usuario.id_usuario,
-        id_producto: producto.id_producto
-      });
-      alert("Éxito agregando a favoritos");
-      setEsFavorito(true);
-    } catch (error) {
-      console.log(error);
-      const mensaje = error.response?.data?.error || "Error agregando favorito";
-      
-      if (mensaje.includes("ya está") || mensaje.includes("duplicado")) {
-        setEsFavorito(true);
+      if (nuevoEstado) {
+        await API.post("/favoritos", {
+          id_usuario: usuario.id_usuario,
+          id_producto: producto.id_producto
+        });
+      } else {
+        await API.delete(`/favoritos/${usuario.id_usuario}/${producto.id_producto}`);
       }
-      alert(mensaje);
+    } catch (error) {
+      console.log("Error actualizando favorito", error.response?.data || error.message);
+      // Si falló, revertimos el estado visual
+      setEsFavorito(!nuevoEstado);
     }
   };
 
@@ -165,6 +169,7 @@ function ProductoDetalle() {
   }
 
   const noDisponible = producto.estado === "vendido";
+  const tieneCertificado = Boolean(producto.certificado);
 
   return (
     <div className="detalle-page-glaze">
@@ -186,15 +191,58 @@ function ProductoDetalle() {
       <div className="detalle-grid-glaze">
         <div className="imagen-section">
           <div className="imagen-wrapper">
-            <Zoom>
-              <img
-                src={producto.imagen}
-                alt={producto.tipo_producto}
-                className="imagen-principal-glaze"
-              />
-            </Zoom>
+            <div
+              className={`imagen-track ${tieneCertificado ? "dos-slides" : ""} ${
+                vistaImagen === "certificado" ? "show-certificado" : ""
+              }`}
+            >
+              <div className="imagen-slide">
+                <Zoom>
+                  <img
+                    src={producto.imagen}
+                    alt={producto.tipo_producto}
+                    className="imagen-principal-glaze"
+                  />
+                </Zoom>
+              </div>
+
+              {tieneCertificado && (
+                <div className="imagen-slide">
+                  <Zoom>
+                    <img
+                      src={producto.certificado}
+                      alt="Certificado de autenticidad"
+                      className="imagen-principal-glaze"
+                    />
+                  </Zoom>
+                </div>
+              )}
+            </div>
+
             <img src={logoGlaze} alt="" className="watermark-detalle" />
           </div>
+
+          {tieneCertificado && (
+            <>
+              <div className="imagen-toggle-glaze">
+                <button
+                  className={`toggle-btn-glaze ${vistaImagen === "producto" ? "active" : ""}`}
+                  onClick={() => setVistaImagen("producto")}
+                >
+                  PRODUCTO
+                </button>
+                <button
+                  className={`toggle-btn-glaze ${vistaImagen === "certificado" ? "active" : ""}`}
+                  onClick={() => setVistaImagen("certificado")}
+                >
+                  CERTIFICADO
+                </button>
+              </div>
+              {vistaImagen === "certificado" && (
+                <p className="certificado-caption">GIA / CDTEC Certified Quality</p>
+              )}
+            </>
+          )}
         </div>
 
         <div className="info-section-glaze">
@@ -259,7 +307,8 @@ function ProductoDetalle() {
           <div className="acciones-footer-glaze">
             <button 
               className={`btn-secundario-glaze ${esFavorito ? 'favorito-activo' : ''}`}
-              onClick={agregarFavorito}
+              onClick={toggleFavorito}
+              aria-label={esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
             >
               {esFavorito ? <FaStar size={20} /> : <FiStar size={20} />}
             </button>
@@ -278,22 +327,6 @@ function ProductoDetalle() {
           </div>
         </div>
       </div>
-
-      {producto.certificado && (
-        <div className="certificado-section-glaze">
-          <h3>📜 Certificado de Autenticidad</h3>
-          <div className="certificado-content">
-            <Zoom>
-              <img
-                src={producto.certificado}
-                alt="certificado"
-                className="certificado-imagen"
-              />
-            </Zoom>
-            <p>GIA / CDTEC Certified Quality</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
