@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiArrowLeft, FiUser, FiMail, FiPhone, FiMapPin, FiLock } from "react-icons/fi";
 import API from "../services/api";
 import "./Perfil.css";
+import logoGlaze from "../assets/images/LOGOS/Isotipo/Glaze-verde.png";
 
 function Perfil() {
   const navigate = useNavigate();
@@ -113,64 +115,85 @@ function Perfil() {
 
   return (
     <div className="perfil-page">
-      <button onClick={() => navigate(-1)} className="btn-volver-premium" type="button">
-        <span className="arrow">←</span> Regresar
-      </button>
+      {/* FILA SUPERIOR: VOLVER + LOGO */}
+      <div className="perfil-top-row">
+        <button onClick={() => navigate(-1)} className="btn-volver-premium" type="button">
+          <FiArrowLeft size={18} />
+          <span>Regresar</span>
+        </button>
+
+        <div className="logo-perfil-container">
+          <img src={logoGlaze} alt="Glaze" className="logo-perfil-glaze" />
+        </div>
+      </div>
 
       <div className="perfil-header">
         <h1>Gestión de Perfil</h1>
+        <div className="accent-line" />
         <p className="subtitulo-premium">Administre su información y seguridad</p>
       </div>
 
       <div className="perfil-grid">
         <section className="perfil-section">
           <div className="section-header">
-            <span className="section-icon" role="img" aria-label="persona">👤</span>
+            <span className="section-icon"><FiUser size={18} /></span>
             <h3>Información Personal</h3>
           </div>
 
           <div className="input-group">
             <label className="label-min" htmlFor="nombre">NOMBRE COMPLETO</label>
-            <input
-              id="nombre"
-              type="text"
-              value={form.nombre}
-              onChange={e => setForm({ ...form, nombre: e.target.value })}
-              placeholder="Ej. Lulo Barrera"
-            />
+            <div className="input-icon-wrapper">
+              <FiUser className="input-icon-perfil" size={15} />
+              <input
+                id="nombre"
+                type="text"
+                value={form.nombre}
+                onChange={e => setForm({ ...form, nombre: e.target.value })}
+                placeholder="Ej. Lulo Barrera"
+              />
+            </div>
           </div>
 
           <div className="input-group">
             <label className="label-min" htmlFor="correo">CORREO ELECTRÓNICO</label>
-            <input
-              id="correo"
-              type="email"
-              value={form.correo}
-              onChange={e => setForm({ ...form, correo: e.target.value })}
-              placeholder="correo@ejemplo.com"
-            />
+            <div className="input-icon-wrapper">
+              <FiMail className="input-icon-perfil" size={15} />
+              <input
+                id="correo"
+                type="email"
+                value={form.correo}
+                onChange={e => setForm({ ...form, correo: e.target.value })}
+                placeholder="correo@ejemplo.com"
+              />
+            </div>
           </div>
 
           <div className="input-group">
             <label className="label-min" htmlFor="telefono">TELÉFONO</label>
-            <input
-              id="telefono"
-              type="tel"
-              value={form.telefono}
-              onChange={e => setForm({ ...form, telefono: e.target.value })}
-              placeholder="+00 000 000"
-            />
+            <div className="input-icon-wrapper">
+              <FiPhone className="input-icon-perfil" size={15} />
+              <input
+                id="telefono"
+                type="tel"
+                value={form.telefono}
+                onChange={e => setForm({ ...form, telefono: e.target.value })}
+                placeholder="+00 000 000"
+              />
+            </div>
           </div>
 
           <div className="input-group">
             <label className="label-min" htmlFor="direccion">DIRECCIÓN DE RESIDENCIA</label>
-            <input
-              id="direccion"
-              type="text"
-              value={form.direccion}
-              onChange={e => setForm({ ...form, direccion: e.target.value })}
-              placeholder="Calle, Ciudad, País"
-            />
+            <div className="input-icon-wrapper">
+              <FiMapPin className="input-icon-perfil" size={15} />
+              <input
+                id="direccion"
+                type="text"
+                value={form.direccion}
+                onChange={e => setForm({ ...form, direccion: e.target.value })}
+                placeholder="Calle, Ciudad, País"
+              />
+            </div>
           </div>
 
           <button className="btn-principal-premium" onClick={actualizarDatos} type="button">
@@ -180,43 +203,52 @@ function Perfil() {
 
         <section className="perfil-section">
           <div className="section-header">
-            <span className="section-icon" role="img" aria-label="candado">🔐</span>
+            <span className="section-icon"><FiLock size={18} /></span>
             <h3>Seguridad y Privacidad</h3>
           </div>
 
           <div className="input-group">
             <label className="label-min" htmlFor="password-actual">CONTRASEÑA ACTUAL</label>
-            <input
-              id="password-actual"
-              type="password"
-              value={passwords.actual}
-              onChange={e => setPasswords({ ...passwords, actual: e.target.value })}
-              placeholder="••••••••"
-            />
+            <div className="input-icon-wrapper">
+              <FiLock className="input-icon-perfil" size={15} />
+              <input
+                id="password-actual"
+                type="password"
+                value={passwords.actual}
+                onChange={e => setPasswords({ ...passwords, actual: e.target.value })}
+                placeholder="••••••••"
+              />
+            </div>
           </div>
 
           <div className="divider-premium" />
 
           <div className="input-group">
             <label className="label-min" htmlFor="password-nueva">NUEVA CONTRASEÑA</label>
-            <input
-              id="password-nueva"
-              type="password"
-              value={passwords.nueva}
-              onChange={e => setPasswords({ ...passwords, nueva: e.target.value })}
-              placeholder="Mínimo 8 caracteres"
-            />
+            <div className="input-icon-wrapper">
+              <FiLock className="input-icon-perfil" size={15} />
+              <input
+                id="password-nueva"
+                type="password"
+                value={passwords.nueva}
+                onChange={e => setPasswords({ ...passwords, nueva: e.target.value })}
+                placeholder="Mínimo 8 caracteres"
+              />
+            </div>
           </div>
 
           <div className="input-group">
             <label className="label-min" htmlFor="password-confirmar">CONFIRMAR NUEVA CONTRASEÑA</label>
-            <input
-              id="password-confirmar"
-              type="password"
-              value={passwords.confirmar}
-              onChange={e => setPasswords({ ...passwords, confirmar: e.target.value })}
-              placeholder="Repita su nueva contraseña"
-            />
+            <div className="input-icon-wrapper">
+              <FiLock className="input-icon-perfil" size={15} />
+              <input
+                id="password-confirmar"
+                type="password"
+                value={passwords.confirmar}
+                onChange={e => setPasswords({ ...passwords, confirmar: e.target.value })}
+                placeholder="Repita su nueva contraseña"
+              />
+            </div>
           </div>
 
           <button className="btn-secundario-premium" onClick={cambiarPassword} type="button">
