@@ -1,7 +1,26 @@
+// src/pages/CrearProducto.js
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {
+  FiArrowLeft,
+  FiDroplet,
+  FiBox,
+  FiActivity,
+  FiDollarSign,
+  FiCamera,
+  FiShield,
+  FiAlertCircle,
+  FiCheck
+} from "react-icons/fi";
+import API from "../services/api";
+import "./publicar.css";
+import logoGlaze from "../assets/images/LOGOS/Isotipo/Glaze-blanco.png";
 
 function CrearProducto() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [statusMsg, setStatusMsg] = useState({ text: "", type: "" });
 
   const [form, setForm] = useState({
     tipo_producto: "esmeralda",
@@ -9,158 +28,304 @@ function CrearProducto() {
     peso: "",
     tratamiento: "",
     valor: "",
-    stock: "",
+    stock: "1",
     imagen: null,
     certificado: null,
-
-    // joya
     tiene_esmeralda: false,
     oro: false,
     oro_rosado: false,
     plata: false
   });
 
-  // =========================
-  // MANEJO DE INPUTS
-  // =========================
-  const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+  const [previewImagen, setPreviewImagen] = useState(null);
+  const [certificadoNombre, setCertificadoNombre] = useState("");
 
-    if (type === "checkbox") {
-      setForm({ ...form, [name]: checked });
-    } else if (type === "file") {
-      setForm({ ...form, [name]: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
+  const handleChange = (name, value) => {
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImagenChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setForm((prev) => ({ ...prev, imagen: file }));
+    setPreviewImagen(URL.createObjectURL(file));
+  };
+
+  const handleCertificadoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setForm((prev) => ({ ...prev, certificado: file }));
+    setCertificadoNombre(file.name);
+  };
+
+  // ☁️ Subida directa a Cloudinary (igual que mobile)
+  const subirArchivoCloudinary = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "glaze_unsigned");
+    data.append("cloud_name", "kadud08u");
+
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/kadud08u/image/upload",
+        data,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return res.data.secure_url;
+    } catch (error) {
+      console.error("Error subiendo a Cloudinary:", error.response?.data || error.message);
+      throw new Error("No se pudo subir el archivo a la nube.");
     }
   };
 
-  // =========================
-  // ENVIAR FORMULARIO
-  // =========================
+  const resetForm = () => {
+    setForm({
+      tipo_producto: "esmeralda",
+      color: "",
+      peso: "",
+      tratamiento: "",
+      valor: "",
+      stock: "1",
+      imagen: null,
+      certificado: null,
+      tiene_esmeralda: false,
+      oro: false,
+      oro_rosado: false,
+      plata: false
+    });
+    setPreviewImagen(null);
+    setCertificadoNombre("");
+    setStatusMsg({ text: "", type: "" });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatusMsg({ text: "", type: "" });
 
-    const token = localStorage.getItem("token");
-
-    // 🔴 VALIDACIÓN CLAVE
-    if (!token) {
-      alert("No estás autenticado ❌");
+    if (!form.color || !form.peso || !form.valor || !form.imagen) {
+      setStatusMsg({ text: "Los campos marcados son obligatorios.", type: "error" });
       return;
     }
 
-    const data = new FormData();
-
-    Object.keys(form).forEach((key) => {
-      if (form[key] === null) return; // evita null en archivos
-
-      if (typeof form[key] === "boolean") {
-        data.append(key, form[key] ? 1 : 0);
-      } else {
-        data.append(key, form[key]);
-      }
-    });
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setStatusMsg({ text: "No estás autenticado.", type: "error" });
+      return;
+    }
 
     try {
+      setLoading(true);
 
-      console.log("TOKEN ENVIADO:", token); // 🔍 DEBUG
+      const imagenUrl = await subirArchivoCloudinary(form.imagen);
 
-      const res = await axios.post(
-        "http://glaze-backend-production-ad01.up.railway.app/api/productos",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // 🔥 CLAVE
-          },
-        }
-      );
+      let certificadoUrl = null;
+      if (form.certificado) {
+        certificadoUrl = await subirArchivoCloudinary(form.certificado);
+      }
 
-      console.log("RESPUESTA:", res.data);
+      const fechaActual = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-      alert("Producto creado 🔥");
+      const payload = {
+        fecha_ingreso: fechaActual,
+        tipo_producto: form.tipo_producto,
+        color: form.color,
+        peso: form.peso,
+        tratamiento: form.tratamiento,
+        valor: form.valor,
+        stock: form.stock,
+        imagen: imagenUrl,
+        certificado: certificadoUrl,
+        tiene_esmeralda: form.tiene_esmeralda ? "1" : "0",
+        oro: form.oro ? "1" : "0",
+        oro_rosado: form.oro_rosado ? "1" : "0",
+        plata: form.plata ? "1" : "0"
+      };
 
-      // 🔄 limpiar formulario
-      setForm({
-        tipo_producto: "esmeralda",
-        color: "",
-        peso: "",
-        tratamiento: "",
-        valor: "",
-        stock: "",
-        imagen: null,
-        certificado: null,
-        tiene_esmeralda: false,
-        oro: false,
-        oro_rosado: false,
-        plata: false
+      const res = await API.post("/productos", payload, {
+        headers: { Authorization: `Bearer ${token}` }
       });
 
-    } catch (error) {
-      console.log("ERROR COMPLETO:", error);
-
-      if (error.response) {
-        console.log("ERROR BACKEND:", error.response.data);
-        alert(error.response.data.mensaje || "Error del servidor");
-      } else {
-        alert("Error de conexión");
+      if (res.data.ok || res.status === 201) {
+        setStatusMsg({ text: "Activo registrado en el inventario Glaze.", type: "success" });
+        setTimeout(() => resetForm(), 2000);
       }
+    } catch (error) {
+      console.error("Error al registrar activo:", error.response?.data || error.message);
+      const mensaje = error.response?.data?.mensaje || "Error en la conexión o subida.";
+      setStatusMsg({ text: mensaje, type: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Publicar nueva esmeralda</h2>
+    <div className="publicar-page">
+      {/* HEADER */}
+      <header className="publicar-header">
+        <div className="publicar-header-content">
+          <div className="publicar-header-left">
+            <button
+              className="btn-back-publicar"
+              onClick={() => navigate(-1)}
+              type="button"
+              aria-label="Volver"
+            >
+              <FiArrowLeft size={22} />
+            </button>
+            <div>
+              <h1 className="publicar-header-title">NUEVO ACTIVO</h1>
+              <p className="publicar-header-tag">CURADURÍA GLAZE</p>
+            </div>
+          </div>
+          <img src={logoGlaze} alt="Glaze" className="publicar-logo" />
+        </div>
+      </header>
 
-      <form onSubmit={handleSubmit}>
+      <form className="publicar-content" onSubmit={handleSubmit}>
+        {/* SELECTOR DE CATEGORÍA */}
+        <div className="publicar-section">
+          <p className="section-label-publicar">NATURALEZA DEL ACTIVO</p>
+          <div className="tab-row-publicar">
+            <button
+              type="button"
+              className={`tab-publicar ${form.tipo_producto === "esmeralda" ? "active" : ""}`}
+              onClick={() => handleChange("tipo_producto", "esmeralda")}
+            >
+              GEMA SUELTA
+            </button>
+            <button
+              type="button"
+              className={`tab-publicar ${form.tipo_producto === "joya" ? "active" : ""}`}
+              onClick={() => handleChange("tipo_producto", "joya")}
+            >
+              JOYERÍA PIEZA
+            </button>
+          </div>
+        </div>
 
-        {/* TIPO */}
-        <select name="tipo_producto" value={form.tipo_producto} onChange={handleChange}>
-          <option value="esmeralda">Esmeralda</option>
-          <option value="joya">Joya</option>
-        </select>
+        {/* ESPECIFICACIONES TÉCNICAS */}
+        <div className="card-publicar">
+          <p className="section-label-publicar">ESPECIFICACIONES TÉCNICAS</p>
 
-        {/* DATOS */}
-        <input name="color" placeholder="Color" value={form.color} onChange={handleChange} />
-        <input name="peso" placeholder="Peso" value={form.peso} onChange={handleChange} />
-        <input name="tratamiento" placeholder="Tratamiento" value={form.tratamiento} onChange={handleChange} />
-        <input name="valor" placeholder="Valor" type="number" value={form.valor} onChange={handleChange} />
-        <input name="stock" placeholder="Stock" type="number" value={form.stock} onChange={handleChange} />
+          <div className="input-group-publicar">
+            <label className="field-title-publicar">COLOR / TONALIDAD</label>
+            <div className="input-box-publicar">
+              <input
+                type="text"
+                placeholder="Ej: Deep Green"
+                value={form.color}
+                onChange={(e) => handleChange("color", e.target.value)}
+              />
+              <FiDroplet size={15} className="input-icon-publicar" />
+            </div>
+          </div>
 
-        {/* ARCHIVOS */}
-        <label>Imagen:</label>
-        <input type="file" name="imagen" onChange={handleChange} />
+          <div className="input-group-publicar">
+            <label className="field-title-publicar">PESO (QUILATES)</label>
+            <div className="input-box-publicar">
+              <input
+                type="text"
+                inputMode="decimal"
+                placeholder="0.00 ct"
+                value={form.peso}
+                onChange={(e) => handleChange("peso", e.target.value)}
+              />
+              <FiBox size={15} className="input-icon-publicar" />
+            </div>
+          </div>
 
-        <label>Certificado:</label>
-        <input type="file" name="certificado" onChange={handleChange} />
+          <div className="input-group-publicar">
+            <label className="field-title-publicar">TRATAMIENTO</label>
+            <div className="input-box-publicar">
+              <input
+                type="text"
+                placeholder="Insignificante / Menor / Aceite"
+                value={form.tratamiento}
+                onChange={(e) => handleChange("tratamiento", e.target.value)}
+              />
+              <FiActivity size={15} className="input-icon-publicar" />
+            </div>
+          </div>
 
-        {/* 💍 JOYA */}
+          <div className="input-group-publicar">
+            <label className="field-title-publicar">VALOR COMERCIAL (USD)</label>
+            <div className="input-box-publicar">
+              <input
+                type="text"
+                inputMode="decimal"
+                placeholder="$ 0,00"
+                value={form.valor}
+                onChange={(e) => handleChange("valor", e.target.value)}
+              />
+              <FiDollarSign size={15} className="input-icon-publicar" />
+            </div>
+          </div>
+        </div>
+
+        {/* DETALLES DE COMPOSICIÓN (SOLO JOYA) */}
         {form.tipo_producto === "joya" && (
-          <>
-            <h3>Datos de la joya</h3>
+          <div className="card-publicar">
+            <p className="section-label-publicar">DETALLES DE COMPOSICIÓN</p>
 
-            <label>
-              <input type="checkbox" name="tiene_esmeralda" checked={form.tiene_esmeralda} onChange={handleChange} />
-              Tiene esmeralda
-            </label>
-
-            <label>
-              <input type="checkbox" name="oro" checked={form.oro} onChange={handleChange} />
-              Oro
-            </label>
-
-            <label>
-              <input type="checkbox" name="oro_rosado" checked={form.oro_rosado} onChange={handleChange} />
-              Oro rosado
-            </label>
-
-            <label>
-              <input type="checkbox" name="plata" checked={form.plata} onChange={handleChange} />
-              Plata
-            </label>
-          </>
+            {[
+              { label: "Esmeralda Certificada", name: "tiene_esmeralda" },
+              { label: "Oro de 18 Kilates", name: "oro" },
+              { label: "Plata de Ley 950", name: "plata" }
+            ].map((item) => (
+              <div key={item.name} className="switch-row-publicar">
+                <span className="switch-label-publicar">{item.label}</span>
+                <label className="switch-toggle-publicar">
+                  <input
+                    type="checkbox"
+                    checked={form[item.name]}
+                    onChange={(e) => handleChange(item.name, e.target.checked)}
+                  />
+                  <span className="switch-slider-publicar" />
+                </label>
+              </div>
+            ))}
+          </div>
         )}
 
-        <button type="submit">Publicar</button>
+        {/* DOCUMENTACIÓN VISUAL */}
+        <div className="card-publicar">
+          <p className="section-label-publicar">DOCUMENTACIÓN VISUAL</p>
+
+          <label className="file-btn-publicar">
+            <FiCamera size={18} />
+            <span>{form.imagen ? "IMAGEN CARGADA" : "ADJUNTAR FOTOGRAFÍA"}</span>
+            <input type="file" accept="image/*" onChange={handleImagenChange} hidden />
+          </label>
+
+          {previewImagen && (
+            <div className="preview-container-publicar">
+              <img src={previewImagen} alt="Vista previa" className="preview-image-publicar" />
+              <span className="preview-badge-publicar">PREVIEW</span>
+            </div>
+          )}
+
+          <label className="file-btn-publicar" style={{ marginTop: 15 }}>
+            <FiShield size={18} />
+            <span>{certificadoNombre || "CERTIFICACIÓN GIA / CDTEC"}</span>
+            <input
+              type="file"
+              accept="application/pdf,image/*"
+              onChange={handleCertificadoChange}
+              hidden
+            />
+          </label>
+        </div>
+
+        {statusMsg.text !== "" && (
+          <div className={`status-banner-publicar ${statusMsg.type === "error" ? "bg-error" : "bg-success"}`}>
+            {statusMsg.type === "error" ? <FiAlertCircle size={16} /> : <FiCheck size={16} />}
+            <span>{statusMsg.text.toUpperCase()}</span>
+          </div>
+        )}
+
+        <button className="boton-publicar" type="submit" disabled={loading}>
+          {loading ? "PROCESANDO..." : "REGISTRAR EN INVENTARIO"}
+        </button>
       </form>
     </div>
   );
