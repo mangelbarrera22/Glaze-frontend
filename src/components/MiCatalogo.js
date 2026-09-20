@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import {
+  FiArrowLeft,
+  FiSearch,
+  FiX,
+  FiEdit2,
+  FiTrash2,
+  FiImage,
+  FiPlus
+} from "react-icons/fi";
 import API from "../services/api";
 import "./MiCatalogo.css";
 
@@ -78,18 +87,31 @@ function MiCatalogo() {
 
       {/* HEADER */}
       <div className="catalogo-header">
-        <div>
-          <h1>Mi Catálogo</h1>
-          <p className="catalogo-tag">
-            {productos.length} PIEZA{productos.length !== 1 ? "S" : ""} • GLAZE
-          </p>
+        <div className="catalogo-header-left">
+          <button
+            className="btn-volver-catalogo"
+            onClick={() => navigate(-1)}
+            type="button"
+            aria-label="Volver"
+          >
+            <FiArrowLeft size={20} />
+          </button>
+          <div>
+            <h1>Mi Catálogo</h1>
+            <p className="catalogo-tag">
+              {productos.length} PIEZA{productos.length !== 1 ? "S" : ""} • GLAZE
+            </p>
+          </div>
         </div>
-        <Link to="/publicar" className="btn-nueva-pieza">+ Nueva Pieza</Link>
+        <Link to="/publicar" className="btn-nueva-pieza">
+          <FiPlus size={16} />
+          <span>Nueva Pieza</span>
+        </Link>
       </div>
 
       {/* BUSCADOR */}
       <div className="search-container">
-        <span className="search-icon">🔍</span>
+        <FiSearch size={16} className="search-icon" />
         <input
           type="text"
           placeholder="Buscar por color, tipo, peso..."
@@ -98,7 +120,9 @@ function MiCatalogo() {
           className="input-busqueda"
         />
         {filtro && (
-          <button className="btn-clear" onClick={() => setFiltro("")}>✕</button>
+          <button className="btn-clear" onClick={() => setFiltro("")} aria-label="Limpiar búsqueda">
+            <FiX size={16} />
+          </button>
         )}
       </div>
 
@@ -136,7 +160,11 @@ function MiCatalogo() {
               <div className="card-imagen-wrapper">
                 {p.imagen
                   ? <img src={p.imagen} alt={p.tipo_producto} className="card-imagen" />
-                  : <div className="card-imagen-placeholder">💎</div>
+                  : (
+                    <div className="card-imagen-placeholder">
+                      <FiImage size={36} />
+                    </div>
+                  )
                 }
                 {vendido && <div className="sold-overlay">No Disponible</div>}
               </div>
@@ -171,8 +199,14 @@ function MiCatalogo() {
                 </div>
 
                 <div className="card-acciones">
-                  <Link to={`/EditarProducto/${p.id_producto}`} className="btn-editar">✏️ EDITAR</Link>
-                  <button onClick={() => eliminarProducto(p.id_producto)} className="btn-eliminar">🗑️ ELIMINAR</button>
+                  <Link to={`/EditarProducto/${p.id_producto}`} className="btn-editar">
+                    <FiEdit2 size={13} />
+                    <span>EDITAR</span>
+                  </Link>
+                  <button onClick={() => eliminarProducto(p.id_producto)} className="btn-eliminar">
+                    <FiTrash2 size={13} />
+                    <span>ELIMINAR</span>
+                  </button>
                 </div>
               </div>
             </div>
