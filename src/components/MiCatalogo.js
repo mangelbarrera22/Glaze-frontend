@@ -1,27 +1,38 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import API from "../services/api";
 import "./MiCatalogo.css";
 
-const BASE_URL = "glaze-backend-production-ad01.up.railway.app/api";
-
 function MiCatalogo() {
+  const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [filtro, setFiltro] = useState("");
 
-  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const usuario = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("usuario"));
+    } catch {
+      return null;
+    }
+  })();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    if (!usuario || !usuario.id_usuario || !token) {
+      navigate("/login");
+      return;
+    }
     cargarProductos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cargarProductos = async () => {
     try {
       setCargando(true);
       setError(null);
-      const res = await axios.get(`${BASE_URL}/productos/vendedor/${usuario.id_usuario}`, {
+      const res = await API.get(`/productos/vendedor/${usuario.id_usuario}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProductos(res.data);
@@ -35,7 +46,7 @@ function MiCatalogo() {
   const eliminarProducto = async (id_producto) => {
     if (!window.confirm("¿Eliminar esta pieza del catálogo?")) return;
     try {
-      await axios.delete(`${BASE_URL}/productos/${id_producto}`, {
+      await API.delete(`/productos/${id_producto}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       cargarProductos();
@@ -58,6 +69,10 @@ function MiCatalogo() {
     }
   };
 
+  if (!usuario) {
+    return null;
+  }
+
   return (
     <div className="catalogo-page">
 
@@ -69,7 +84,7 @@ function MiCatalogo() {
             {productos.length} PIEZA{productos.length !== 1 ? "S" : ""} • GLAZE
           </p>
         </div>
-        <a href="/publicar" className="btn-nueva-pieza">+ Nueva Pieza</a>
+        <Link to="/publicar" className="btn-nueva-pieza">+ Nueva Pieza</Link>
       </div>
 
       {/* BUSCADOR */}
@@ -105,7 +120,7 @@ function MiCatalogo() {
       {!cargando && !error && filtrados.length === 0 && (
         <div className="estado-container vacio">
           <p>{filtro ? "Sin resultados para tu búsqueda." : "Aún no has publicado ninguna pieza."}</p>
-          {!filtro && <a href="/publicar" className="btn-retry">PUBLICAR PRIMERA PIEZA</a>}
+          {!filtro && <Link to="/publicar" className="btn-retry">PUBLICAR PRIMERA PIEZA</Link>}
         </div>
       )}
 
@@ -120,7 +135,7 @@ function MiCatalogo() {
 
               <div className="card-imagen-wrapper">
                 {p.imagen
-                  ? <img src={`http://glaze-backend-production-ad01.up.railway.app/uploads/${p.imagen}`} alt={p.tipo_producto} className="card-imagen" />
+                  ? <img src={p.imagen} alt={p.tipo_producto} className="card-imagen" />
                   : <div className="card-imagen-placeholder">💎</div>
                 }
                 {vendido && <div className="sold-overlay">No Disponible</div>}
@@ -156,7 +171,7 @@ function MiCatalogo() {
                 </div>
 
                 <div className="card-acciones">
-                  <a href={`/EditarProducto/${p.id_producto}`} className="btn-editar">✏️ EDITAR</a>
+                  <Link to={`/EditarProducto/${p.id_producto}`} className="btn-editar">✏️ EDITAR</Link>
                   <button onClick={() => eliminarProducto(p.id_producto)} className="btn-eliminar">🗑️ ELIMINAR</button>
                 </div>
               </div>
