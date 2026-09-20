@@ -78,6 +78,19 @@
   margin-bottom: 20px;
 }
 
+/* ========== GRID 2 COLUMNAS: TEXTO IZQ / IMAGEN-CONFIRMAR DER ========== */
+.publicar-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.publicar-col-der {
+  position: sticky;
+  top: 30px;
+}
+
 .section-label-publicar {
   font-size: 10px;
   color: #1f6f54;
@@ -350,6 +363,16 @@
 }
 
 /* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  .publicar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .publicar-col-der {
+    position: static;
+  }
+}
+
 @media (max-width: 600px) {
   .publicar-header {
     padding: 18px 20px;

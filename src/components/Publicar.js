@@ -182,150 +182,157 @@ function CrearProducto() {
       </header>
 
       <form className="publicar-content" onSubmit={handleSubmit}>
-        {/* SELECTOR DE CATEGORÍA */}
-        <div className="publicar-section">
-          <p className="section-label-publicar">NATURALEZA DEL ACTIVO</p>
-          <div className="tab-row-publicar">
-            <button
-              type="button"
-              className={`tab-publicar ${form.tipo_producto === "esmeralda" ? "active" : ""}`}
-              onClick={() => handleChange("tipo_producto", "esmeralda")}
-            >
-              GEMA SUELTA
-            </button>
-            <button
-              type="button"
-              className={`tab-publicar ${form.tipo_producto === "joya" ? "active" : ""}`}
-              onClick={() => handleChange("tipo_producto", "joya")}
-            >
-              JOYERÍA PIEZA
-            </button>
-          </div>
-        </div>
-
-        {/* ESPECIFICACIONES TÉCNICAS */}
-        <div className="card-publicar">
-          <p className="section-label-publicar">ESPECIFICACIONES TÉCNICAS</p>
-
-          <div className="input-group-publicar">
-            <label className="field-title-publicar">COLOR / TONALIDAD</label>
-            <div className="input-box-publicar">
-              <input
-                type="text"
-                placeholder="Ej: Deep Green"
-                value={form.color}
-                onChange={(e) => handleChange("color", e.target.value)}
-              />
-              <FiDroplet size={15} className="input-icon-publicar" />
-            </div>
-          </div>
-
-          <div className="input-group-publicar">
-            <label className="field-title-publicar">PESO (QUILATES)</label>
-            <div className="input-box-publicar">
-              <input
-                type="text"
-                inputMode="decimal"
-                placeholder="0.00 ct"
-                value={form.peso}
-                onChange={(e) => handleChange("peso", e.target.value)}
-              />
-              <FiBox size={15} className="input-icon-publicar" />
-            </div>
-          </div>
-
-          <div className="input-group-publicar">
-            <label className="field-title-publicar">TRATAMIENTO</label>
-            <div className="input-box-publicar">
-              <input
-                type="text"
-                placeholder="Insignificante / Menor / Aceite"
-                value={form.tratamiento}
-                onChange={(e) => handleChange("tratamiento", e.target.value)}
-              />
-              <FiActivity size={15} className="input-icon-publicar" />
-            </div>
-          </div>
-
-          <div className="input-group-publicar">
-            <label className="field-title-publicar">VALOR COMERCIAL (USD)</label>
-            <div className="input-box-publicar">
-              <input
-                type="text"
-                inputMode="decimal"
-                placeholder="$ 0,00"
-                value={form.valor}
-                onChange={(e) => handleChange("valor", e.target.value)}
-              />
-              <FiDollarSign size={15} className="input-icon-publicar" />
-            </div>
-          </div>
-        </div>
-
-        {/* DETALLES DE COMPOSICIÓN (SOLO JOYA) */}
-        {form.tipo_producto === "joya" && (
-          <div className="card-publicar">
-            <p className="section-label-publicar">DETALLES DE COMPOSICIÓN</p>
-
-            {[
-              { label: "Esmeralda Certificada", name: "tiene_esmeralda" },
-              { label: "Oro de 18 Kilates", name: "oro" },
-              { label: "Plata de Ley 950", name: "plata" }
-            ].map((item) => (
-              <div key={item.name} className="switch-row-publicar">
-                <span className="switch-label-publicar">{item.label}</span>
-                <label className="switch-toggle-publicar">
-                  <input
-                    type="checkbox"
-                    checked={form[item.name]}
-                    onChange={(e) => handleChange(item.name, e.target.checked)}
-                  />
-                  <span className="switch-slider-publicar" />
-                </label>
+        <div className="publicar-grid">
+          {/* COLUMNA IZQUIERDA: CAMPOS DE TEXTO */}
+          <div className="publicar-col-izq">
+            {/* SELECTOR DE CATEGORÍA */}
+            <div className="publicar-section">
+              <p className="section-label-publicar">NATURALEZA DEL ACTIVO</p>
+              <div className="tab-row-publicar">
+                <button
+                  type="button"
+                  className={`tab-publicar ${form.tipo_producto === "esmeralda" ? "active" : ""}`}
+                  onClick={() => handleChange("tipo_producto", "esmeralda")}
+                >
+                  GEMA SUELTA
+                </button>
+                <button
+                  type="button"
+                  className={`tab-publicar ${form.tipo_producto === "joya" ? "active" : ""}`}
+                  onClick={() => handleChange("tipo_producto", "joya")}
+                >
+                  JOYERÍA PIEZA
+                </button>
               </div>
-            ))}
-          </div>
-        )}
-
-        {/* DOCUMENTACIÓN VISUAL */}
-        <div className="card-publicar">
-          <p className="section-label-publicar">DOCUMENTACIÓN VISUAL</p>
-
-          <label className="file-btn-publicar">
-            <FiCamera size={18} />
-            <span>{form.imagen ? "IMAGEN CARGADA" : "ADJUNTAR FOTOGRAFÍA"}</span>
-            <input type="file" accept="image/*" onChange={handleImagenChange} hidden />
-          </label>
-
-          {previewImagen && (
-            <div className="preview-container-publicar">
-              <img src={previewImagen} alt="Vista previa" className="preview-image-publicar" />
-              <span className="preview-badge-publicar">PREVIEW</span>
             </div>
-          )}
 
-          <label className="file-btn-publicar" style={{ marginTop: 15 }}>
-            <FiShield size={18} />
-            <span>{certificadoNombre || "CERTIFICACIÓN GIA / CDTEC"}</span>
-            <input
-              type="file"
-              accept="application/pdf,image/*"
-              onChange={handleCertificadoChange}
-              hidden
-            />
-          </label>
-        </div>
+            {/* ESPECIFICACIONES TÉCNICAS */}
+            <div className="card-publicar">
+              <p className="section-label-publicar">ESPECIFICACIONES TÉCNICAS</p>
 
-        {statusMsg.text !== "" && (
-          <div className={`status-banner-publicar ${statusMsg.type === "error" ? "bg-error" : "bg-success"}`}>
-            {statusMsg.type === "error" ? <FiAlertCircle size={16} /> : <FiCheck size={16} />}
-            <span>{statusMsg.text.toUpperCase()}</span>
+              <div className="input-group-publicar">
+                <label className="field-title-publicar">COLOR / TONALIDAD</label>
+                <div className="input-box-publicar">
+                  <input
+                    type="text"
+                    placeholder="Ej: Deep Green"
+                    value={form.color}
+                    onChange={(e) => handleChange("color", e.target.value)}
+                  />
+                  <FiDroplet size={15} className="input-icon-publicar" />
+                </div>
+              </div>
+
+              <div className="input-group-publicar">
+                <label className="field-title-publicar">PESO (QUILATES)</label>
+                <div className="input-box-publicar">
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="0.00 ct"
+                    value={form.peso}
+                    onChange={(e) => handleChange("peso", e.target.value)}
+                  />
+                  <FiBox size={15} className="input-icon-publicar" />
+                </div>
+              </div>
+
+              <div className="input-group-publicar">
+                <label className="field-title-publicar">TRATAMIENTO</label>
+                <div className="input-box-publicar">
+                  <input
+                    type="text"
+                    placeholder="Insignificante / Menor / Aceite"
+                    value={form.tratamiento}
+                    onChange={(e) => handleChange("tratamiento", e.target.value)}
+                  />
+                  <FiActivity size={15} className="input-icon-publicar" />
+                </div>
+              </div>
+
+              <div className="input-group-publicar">
+                <label className="field-title-publicar">VALOR COMERCIAL (USD)</label>
+                <div className="input-box-publicar">
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="$ 0,00"
+                    value={form.valor}
+                    onChange={(e) => handleChange("valor", e.target.value)}
+                  />
+                  <FiDollarSign size={15} className="input-icon-publicar" />
+                </div>
+              </div>
+            </div>
+
+            {/* DETALLES DE COMPOSICIÓN (SOLO JOYA) */}
+            {form.tipo_producto === "joya" && (
+              <div className="card-publicar">
+                <p className="section-label-publicar">DETALLES DE COMPOSICIÓN</p>
+
+                {[
+                  { label: "Esmeralda Certificada", name: "tiene_esmeralda" },
+                  { label: "Oro de 18 Kilates", name: "oro" },
+                  { label: "Plata de Ley 950", name: "plata" }
+                ].map((item) => (
+                  <div key={item.name} className="switch-row-publicar">
+                    <span className="switch-label-publicar">{item.label}</span>
+                    <label className="switch-toggle-publicar">
+                      <input
+                        type="checkbox"
+                        checked={form[item.name]}
+                        onChange={(e) => handleChange(item.name, e.target.checked)}
+                      />
+                      <span className="switch-slider-publicar" />
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        )}
 
-        <button className="boton-publicar" type="submit" disabled={loading}>
-          {loading ? "PROCESANDO..." : "REGISTRAR EN INVENTARIO"}
-        </button>
+          {/* COLUMNA DERECHA: IMAGEN, CERTIFICADO Y CONFIRMAR */}
+          <div className="publicar-col-der">
+            <div className="card-publicar">
+              <p className="section-label-publicar">DOCUMENTACIÓN VISUAL</p>
+
+              <label className="file-btn-publicar">
+                <FiCamera size={18} />
+                <span>{form.imagen ? "IMAGEN CARGADA" : "ADJUNTAR FOTOGRAFÍA"}</span>
+                <input type="file" accept="image/*" onChange={handleImagenChange} hidden />
+              </label>
+
+              {previewImagen && (
+                <div className="preview-container-publicar">
+                  <img src={previewImagen} alt="Vista previa" className="preview-image-publicar" />
+                  <span className="preview-badge-publicar">PREVIEW</span>
+                </div>
+              )}
+
+              <label className="file-btn-publicar" style={{ marginTop: 15 }}>
+                <FiShield size={18} />
+                <span>{certificadoNombre || "CERTIFICACIÓN GIA / CDTEC"}</span>
+                <input
+                  type="file"
+                  accept="application/pdf,image/*"
+                  onChange={handleCertificadoChange}
+                  hidden
+                />
+              </label>
+            </div>
+
+            {statusMsg.text !== "" && (
+              <div className={`status-banner-publicar ${statusMsg.type === "error" ? "bg-error" : "bg-success"}`}>
+                {statusMsg.type === "error" ? <FiAlertCircle size={16} /> : <FiCheck size={16} />}
+                <span>{statusMsg.text.toUpperCase()}</span>
+              </div>
+            )}
+
+            <button className="boton-publicar" type="submit" disabled={loading}>
+              {loading ? "PROCESANDO..." : "REGISTRAR EN INVENTARIO"}
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );
