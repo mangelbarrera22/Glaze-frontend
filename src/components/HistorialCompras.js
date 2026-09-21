@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiArrowLeft, FiSearch, FiX } from "react-icons/fi";
 import API from "../services/api";
 import logoGlaze from "../assets/images/LOGOS/Isotipo/Glaze-verde.png";
 import "./Historial.css";
@@ -9,6 +10,8 @@ function HistorialCompras() {
   const [pedidos, setPedidos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const [filtro, setFiltro] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const usuario = (() => {
     try {
@@ -57,7 +60,6 @@ function HistorialCompras() {
     return "GLZ-" + String(id).padStart(5, "0");
   }
 
-  // 🔥 Genera el HTML del certificado de UNA sola pieza (igual que mobile)
   function generarCertificadoHTML(p) {
     const imagenProducto = p.imagen || null;
     const certificado = p.certificado || null;
@@ -204,7 +206,6 @@ function HistorialCompras() {
     `;
   }
 
-  // 🔥 Abre una ventana nueva e imprime SOLO la pieza seleccionada
   function imprimirCertificado(p) {
     const html = generarCertificadoHTML(p);
     const ventana = window.open("", "_blank", "width=900,height=1000");
@@ -218,14 +219,19 @@ function HistorialCompras() {
     ventana.document.write(html);
     ventana.document.close();
 
-    // Esperar a que carguen las imágenes antes de imprimir
     setTimeout(() => {
       ventana.focus();
       ventana.print();
     }, 800);
   }
 
-  // Render sin JSX usando React.createElement
+  // Filtrado de pedidos según tipo o color
+  const pedidosFiltrados = pedidos.filter(p =>
+    (p.nombre_producto || "").toLowerCase().includes(filtro.toLowerCase()) ||
+    (p.color || "").toLowerCase().includes(filtro.toLowerCase()) ||
+    formatearReferencia(p.id_venta || p.id_producto).toLowerCase().includes(filtro.toLowerCase())
+  );
+
   const renderHeader = () =>
     React.createElement(
       "header",
@@ -239,10 +245,72 @@ function HistorialCompras() {
           "aria-label": "Volver",
           type: "button"
         },
-        "←"
+        React.createElement(FiArrowLeft, { size: 20 })
       ),
 
-      // Logo Glaze y título juntos
+      // Título e información a la izquierda
+      React.createElement(
+        "div",
+        { className: "header-branding-insti" },
+        React.createElement("h1", { className: "brand-title-insti" }, "Adquisiciones"),
+        React.createElement("div", { className: "accent-line-insti" }),
+        React.createElement("h2", { className: "brand-subtitle-insti" }, "HISTORIAL DE INVERSIONES")
+      ),
+
+      // Buscador expandible a la derecha (junto al logo)
+      React.createElement(
+        "div",
+        { className: `search-expandable-insti ${isExpanded ? 'expanded' : ''}` },
+        !isExpanded
+          ? React.createElement(
+              "button",
+              {
+                className: "btn-search-icon-insti",
+                onClick: () => setIsExpanded(true),
+                title: "Buscar",
+                type: "button"
+              },
+              React.createElement(FiSearch, { size: 18 })
+            )
+          : React.createElement(
+              "div",
+              { className: "search-expanded-content-insti" },
+              React.createElement(FiSearch, { size: 16, color: "#64748b" }),
+              React.createElement("input", {
+                type: "text",
+                placeholder: "Buscar por gema, color o ref...",
+                value: filtro,
+                onChange: (e) => setFiltro(e.target.value),
+                className: "search-input-expanded-insti",
+                autoFocus: true
+              }),
+              filtro && React.createElement(
+                "button",
+                {
+                  className: "btn-clear-search-insti",
+                  onClick: () => setFiltro(""),
+                  title: "Limpiar",
+                  type: "button"
+                },
+                React.createElement(FiX, { size: 14 })
+              ),
+              React.createElement(
+                "button",
+                {
+                  className: "btn-close-search-insti",
+                  onClick: () => {
+                    setIsExpanded(false);
+                    setFiltro("");
+                  },
+                  title: "Cerrar",
+                  type: "button"
+                },
+                React.createElement(FiX, { size: 18 })
+              )
+            )
+      ),
+
+      // Logo a la derecha
       React.createElement(
         "div",
         { className: "header-logo-insti" },
@@ -250,12 +318,7 @@ function HistorialCompras() {
           src: logoGlaze,
           alt: "Glaze",
           className: "logo-insti",
-        }),
-        React.createElement("div", null,
-          React.createElement("h1", { className: "brand-title-insti" }, "Adquisiciones"),
-          React.createElement("div", { className: "accent-line-insti" }),
-          React.createElement("h2", { className: "brand-subtitle-insti" }, "HISTORIAL DE INVERSIONES")
-        )
+        })
       )
     );
 
@@ -304,7 +367,7 @@ function HistorialCompras() {
     React.createElement(
       "div",
       { className: "lista-pedidos-insti" },
-      pedidos.map((p, index) =>
+      pedidosFiltrados.map((p, index) =>
         React.createElement(
           "div",
           { className: "card-glaze-insti", key: `${p.id_venta || p.id_producto}-${index}` },
@@ -361,7 +424,7 @@ function HistorialCompras() {
                 onClick: () => imprimirCertificado(p),
                 type: "button"
               },
-              "📄 DESCARGAR CERTIFICADO DIGITAL"
+              "DESCARGAR CERTIFICADO DIGITAL"
             )
           )
         )

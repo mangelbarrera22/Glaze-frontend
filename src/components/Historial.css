@@ -1,20 +1,19 @@
 /* Contenedor principal */
 .historial-page-insti {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 40px 25px 80px;
-  background-color: #fcfdfd; /* mismo bg móvil */
+  background-color: #fcfdfd;
   min-height: 100vh;
-  font-family: 'Arial', sans-serif;
-  color: #0a3d2e; /* dark */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #0a3d2e;
 }
 
-/* HEADER institucional */
+/* HEADER institucional (Sin borde inferior para quitar la línea de subrayado) */
 .header-insti {
   display: flex;
   align-items: center;
   padding-bottom: 25px;
-  border-bottom: 1px solid #f1f5f9;
   gap: 20px;
 }
 
@@ -24,8 +23,7 @@
   border-radius: 50%;
   background: #f8fafc;
   border: none;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 16px;
   color: #0a3d2e;
   cursor: pointer;
   display: flex;
@@ -36,20 +34,11 @@
 }
 
 .btn-back-insti:hover {
-  background-color: #e1e6e9;
+  background-color: #e2e8f0;
 }
 
-.header-logo-insti {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.header-branding-insti {
   flex-grow: 1;
-}
-
-.logo-insti {
-  width: 40px;
-  height: 40px;
-  opacity: 0.8;
 }
 
 .brand-title-insti {
@@ -73,6 +62,106 @@
   font-weight: 800;
   letter-spacing: 2px;
   margin: 0;
+}
+
+/* Logo ubicado a la derecha */
+.header-logo-insti {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo-insti {
+  width: 40px;
+  height: 40px;
+  opacity: 0.8;
+}
+
+/* ========== BUSCADOR EXPANDIBLE (Estilo Catálogo) ========== */
+.search-expandable-insti {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-search-icon-insti {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.btn-search-icon-insti:hover {
+  background: #e2e8f0;
+  color: #0a3d2e;
+  transform: scale(1.05);
+}
+
+.search-expandable-insti.expanded {
+  width: 320px;
+}
+
+.search-expanded-content-insti {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: expandSearchInsti 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes expandSearchInsti {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.search-input-expanded-insti {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #1e293b;
+  background: transparent;
+}
+
+.search-input-expanded-insti::placeholder {
+  color: #cbd5e1;
+}
+
+.btn-clear-search-insti,
+.btn-close-search-insti {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.btn-clear-search-insti:hover,
+.btn-close-search-insti:hover {
+  background: #e2e8f0;
+  color: #0a3d2e;
 }
 
 /* Estados */
@@ -105,6 +194,7 @@
   font-weight: 600;
   color: #0a3d2e;
   font-size: 16px;
+  text-align: center;
 }
 
 /* Lista de pedidos */
@@ -115,7 +205,6 @@
   gap: 25px;
 }
 
-
 /* Tarjeta fabricante Glaze adaptada */
 .card-glaze-insti {
   background-color: white;
@@ -125,6 +214,12 @@
   display: flex;
   overflow: hidden;
   position: relative;
+  transition: all 0.3s ease;
+}
+
+.card-glaze-insti:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
 }
 
 /* barra lateral */
@@ -237,26 +332,29 @@
   margin: 0;
 }
 
-/* Botón acción */
+/* Botón de acción institucional en formato cápsula y sin flecha */
 .btn-action-insti {
-  background-color: #0a3d2e;
+  background-color: #1f6f54;
   color: white;
-  font-weight: 700;
-  font-size: 9px;
-  letter-spacing: 1px;
-  height: 45px;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 2px;
+  height: 48px;
   border: none;
-  border-radius: 2px;
+  border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   cursor: pointer;
   width: 100%;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(31, 111, 84, 0.2);
 }
+
 .btn-action-insti:hover {
-  background-color: #164833;
+  background-color: #15553f;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(31, 111, 84, 0.3);
 }
 
 /* Estado vacío */
@@ -268,4 +366,21 @@
   color: #94a3b8;
   text-align: center;
   margin-top: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-insti {
+    flex-wrap: wrap;
+  }
+  
+  .search-expandable-insti.expanded {
+    width: 100%;
+    order: 4;
+    margin-top: 15px;
+  }
+
+  .lista-pedidos-insti {
+    grid-template-columns: 1fr;
+  }
 }
