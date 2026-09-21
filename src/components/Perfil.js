@@ -92,7 +92,9 @@ function Perfil() {
     try {
       await API.put(`/usuarios/password/${user.id_usuario}`, {
         passwordActual: passwords.actual,
-        nuevaPassword: passwords.nueva
+        nuevaPassword: passwords.nueva,
+        password_actual: passwords.actual,
+        password_nueva: passwords.nueva
       });
 
       alert("Contraseña actualizada con éxito");
