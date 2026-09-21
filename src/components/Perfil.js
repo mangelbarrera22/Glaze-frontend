@@ -61,10 +61,10 @@ function Perfil() {
     }
 
     try {
-      await API.put(`/usuarios/${user.id_usuario}`, {
+      await API.put(`/usuarios/actualizar/${user.id_usuario}`, {
         nombre: form.nombre.trim(),
         correo: form.correo.trim(),
-        telefono: form.telefono.trim(),
+        celular: form.telefono.trim(),
         direccion: form.direccion.trim()
       });
 
@@ -91,10 +91,8 @@ function Perfil() {
 
     try {
       await API.put(`/usuarios/password/${user.id_usuario}`, {
-        passwordActual: passwords.actual,
-        nuevaPassword: passwords.nueva,
-        password_actual: passwords.actual,
-        password_nueva: passwords.nueva
+        password: passwords.nueva,
+        password_actual: passwords.actual
       });
 
       alert("Contraseña actualizada con éxito");
