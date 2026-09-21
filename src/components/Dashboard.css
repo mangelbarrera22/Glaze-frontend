@@ -185,7 +185,7 @@
 /* ========== CARDS GRANDES (CATÁLOGO) ========== */
 .option-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); /* 🔥 3 COLUMNAS */
   gap: 16px;
 }
 
@@ -268,7 +268,7 @@
   }
   
   .option-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 🔥 2 COLUMNAS EN TABLET */
   }
 }
 
@@ -277,15 +277,25 @@
     padding: 20px;
   }
 
+  /* Mantiene la fila en móviles para que el saludo quede a la izq y el botón a la der */
   .header-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
-  /* 🔥 Botón salir alineado a la derecha en móviles */
+  .header-left {
+    flex: 1;
+    min-width: 180px;
+  }
+
   .btn-logout {
-    align-self: flex-end;
+    align-self: center;
+    padding: 8px 14px;
+    font-size: 13px;
   }
 
   .dashboard-main {
@@ -301,13 +311,22 @@
   }
   
   .option-cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 🔥 1 COLUMNA EN MÓVIL */
   }
 }
 
 @media (max-width: 500px) {
   .header-greeting {
-    font-size: 18px;
+    font-size: 16px;
+  }
+
+  .header-subtitle {
+    font-size: 11px;
+  }
+
+  .btn-logout {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .stat-value {
