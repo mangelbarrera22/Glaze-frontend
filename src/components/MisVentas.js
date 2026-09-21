@@ -54,7 +54,10 @@ function MisVentas() {
     });
   };
 
-  const totalVentas = ventas.reduce((acc, v) => acc + Number(v.valor_venta || 0), 0);
+  const totalVentas = ventas.reduce(
+    (acc, v) => acc + Number(v.valor_compra ?? v.valor_venta ?? 0),
+    0
+  );
 
   if (error) return (
     <div className="ventas-error">
@@ -140,14 +143,16 @@ function MisVentas() {
               </div>
               <div className="detail-group">
                 <span className="label-min">FECHA</span>
-                <p>{formatFecha(v.fecha_venta)}</p>
+                <p>{formatFecha(v.fecha_compra ?? v.fecha_venta)}</p>
               </div>
             </div>
 
             <div className="venta-footer">
               <div>
                 <span className="label-min">INGRESO</span>
-                <p className="valor-text">${Number(v.valor_venta).toLocaleString("es-CO")} USD</p>
+                <p className="valor-text">
+                  ${Number(v.valor_compra ?? v.valor_venta ?? 0).toLocaleString("es-CO")} USD
+                </p>
               </div>
               <button className="btn-comprobante" onClick={() => window.print()}>
                 📄 Comprobante
