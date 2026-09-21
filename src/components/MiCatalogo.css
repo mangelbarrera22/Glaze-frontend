@@ -353,7 +353,9 @@
 }
 
 .btn-editar:hover {
-  background: #f0fdf4;
+  background: #1f6f54;
+  color: white;
+  border-color: #1f6f54;
 }
 
 .btn-eliminar {
