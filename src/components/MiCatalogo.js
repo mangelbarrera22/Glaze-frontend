@@ -6,11 +6,11 @@ import {
   FiX,
   FiEdit2,
   FiTrash2,
-  FiImage,
   FiPlus
 } from "react-icons/fi";
 import API from "../services/api";
 import "./MiCatalogo.css";
+import logoGlaze from "../assets/images/LOGOS/Isotipo/Glaze-verde.png";
 
 function MiCatalogo() {
   const navigate = useNavigate();
@@ -162,7 +162,7 @@ function MiCatalogo() {
                   ? <img src={p.imagen} alt={p.tipo_producto} className="card-imagen" />
                   : (
                     <div className="card-imagen-placeholder">
-                      <FiImage size={36} />
+                      <img src={logoGlaze} alt="" className="placeholder-logo-glaze" />
                     </div>
                   )
                 }
