@@ -194,7 +194,7 @@ function Favoritos() {
                       <span>
                         {noDisponible ? "PIEZA NO DISPONIBLE" : "DETALLES DE INVERSIÓN"}
                       </span>
-                      {!noDisponible />}
+                      {!noDisponible}
                     </button>
                   </div>
                 </div>
