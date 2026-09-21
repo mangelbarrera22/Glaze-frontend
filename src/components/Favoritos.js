@@ -194,7 +194,7 @@ function Favoritos() {
                       <span>
                         {noDisponible ? "PIEZA NO DISPONIBLE" : "DETALLES DE INVERSIÓN"}
                       </span>
-                      {!noDisponible && <FiArrowRight size={14} />}
+                      {!noDisponible />}
                     </button>
                   </div>
                 </div>
