@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../services/api";
 import "./MisVentas.css";
-
-const BASE_URL = "glaze-backend-production-ad01.up.railway.app/api";
 
 function MisVentas() {
   const [ventas, setVentas] = useState([]);
@@ -25,13 +23,14 @@ function MisVentas() {
       return;
     }
     cargarVentas();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cargarVentas = async () => {
     try {
       setCargando(true);
       setError(null);
-      const res = await axios.get(`${BASE_URL}/ventas/vendedor/${usuario.id_usuario}`, {
+      const res = await API.get(`/ventas/vendedor/${usuario.id_usuario}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setVentas(Array.isArray(res.data) ? res.data : []);
