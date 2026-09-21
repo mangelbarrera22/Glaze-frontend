@@ -144,7 +144,7 @@ function Catalogo() {
                     onClick={() => verDetalles(producto.id_producto)}
                   >
                     <span>ADQUIRIR PIEZA</span>
-                    <FiArrowRight size={16} />
+                    
                   </button>
                 </div>
               </div>
