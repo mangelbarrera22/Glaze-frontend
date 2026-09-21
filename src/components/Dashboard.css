@@ -20,13 +20,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* Permite adaptarse perfectamente a pantallas estrechas */
-  gap: 16px;
+  flex-wrap: nowrap; /* Evita que quiebre por defecto */
 }
 
 .header-left {
   flex: 1;
-  min-width: 200px;
 }
 
 .header-greeting {
@@ -62,7 +60,7 @@
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0; /* Evita que el botón se deforme */
+  flex-shrink: 0;
 }
 
 .btn-logout:hover {
@@ -278,7 +276,28 @@
 
 @media (max-width: 768px) {
   .dashboard-top-header {
-    padding: 20px;
+    padding: 20px 24px;
+  }
+
+  /* Forzamos que se queden siempre lado a lado sin romper filas */
+  .header-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-greeting {
+    font-size: 17px;
+  }
+
+  .header-subtitle {
+    font-size: 11px;
+  }
+
+  .btn-logout {
+    padding: 8px 14px;
+    font-size: 13px;
   }
 
   .dashboard-main {
@@ -298,18 +317,19 @@
   }
 }
 
-@media (max-width: 500px) {
-  .header-greeting {
-    font-size: 16px;
+@media (max-width: 480px) {
+  .dashboard-top-header {
+    padding: 16px;
   }
 
-  .header-subtitle {
-    font-size: 11px;
+  .header-greeting {
+    font-size: 15px;
   }
 
   .btn-logout {
-    padding: 6px 12px;
+    padding: 6px 10px;
     font-size: 12px;
+    gap: 4px;
   }
 
   .stat-value {
