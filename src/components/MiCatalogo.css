@@ -242,10 +242,11 @@
 }
 
 .placeholder-logo-glaze {
-  width: 56px;
-  height: 56px;
+  width: 130px;
+  height: 130px;
   object-fit: contain;
-  opacity: 0.2;
+  opacity: 0.15;
+  transform: rotate(-15deg);
 }
 
 .sold-overlay {
