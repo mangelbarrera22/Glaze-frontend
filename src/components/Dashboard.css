@@ -44,22 +44,39 @@
   letter-spacing: 0.5px;
 }
 
+/* ========== BOTÓN SALIR (ESTILO MEJORADO + HOVER ROJO) ========== */
 .btn-logout {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: white;
   padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-logout:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #dc2626; /* Rojo de salida / alerta */
+  border-color: #dc2626;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.btn-logout svg,
+.btn-logout i {
+  transition: transform 0.3s ease;
+}
+
+.btn-logout:hover svg,
+.btn-logout:hover i {
+  transform: translateX(2px);
 }
 
 /* ========== CONTENIDO PRINCIPAL ========== */
@@ -104,6 +121,7 @@
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  flex-shrink: 0;
 }
 
 .stat-compras .stat-icon {
@@ -116,8 +134,13 @@
   color: #0a3d2e;
 }
 
+/* ========== ALINEACIÓN CORREGIDA (DESCRIPCIÓN DEBAJO DEL NÚMERO) ========== */
 .stat-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left; /* Cambiado de center a left para alinear correctamente con el diseño */
 }
 
 .stat-value {
@@ -125,13 +148,16 @@
   font-weight: 600;
   color: #1e293b;
   margin: 0 0 4px 0;
-  text-align: center;
+  text-align: left; /* Asegura que el número quede alineado con la etiqueta */
+  line-height: 1.2;
 }
 
 .stat-label {
   font-size: 13px;
   color: #64748b;
   margin: 0;
+  font-weight: 500;
+  text-align: left; /* Ubica la descripción justo debajo del número */
 }
 
 /* ========== GRID PRINCIPAL (2 COLUMNAS) ========== */
@@ -205,6 +231,7 @@
   color: #64748b;
   margin: 0;
 }
+
 /* ========== LISTA SIMPLE (MI CUENTA) ========== */
 .menu-list {
   display: flex;
