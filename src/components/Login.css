@@ -42,28 +42,27 @@
 /* ========== CARD BLANCA ========== */
 .login-card {
   background: white;
-  border-radius: 2px; /* Bordes cuadrados institucionales */
-  padding: 35px;
+  border-radius: 4px; /* Ligeramente más suave */
+  padding: 40px 35px;
   width: 100%;
   max-width: 450px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
-/* ========== TÍTULO ACTUALIZADO (FUENTE Y ESTILO) ========== */
+/* ========== TÍTULO CON ESTILO ELEGANTE / LUJO ========== */
 .card-title {
-  font-size: 20px; /* Ikatu emoambue ne rembipota rupi */
+  font-size: 24px;
   color: #0a3d2e;
   text-align: center;
-  margin-bottom: 30px;
-  letter-spacing: 1.5px;
-  font-weight: 700;
-  /* Emoĩ ko'ápe pe fuente pyahu reiporuséva, por ehemplo: */
-  font-family: 'Georgia', serif; /* Térã 'Playfair Display', 'Poppins', etc. */
+  margin-bottom: 35px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  font-family: 'Playfair Display', 'Georgia', serif; /* Fuente elegante estilo joyería */
 }
 
 /* ========== INPUTS ========== */
 .input-container {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .input-label {
@@ -71,7 +70,7 @@
   font-size: 10px;
   font-weight: bold;
   color: #94a3b8;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   margin-bottom: 8px;
 }
 
@@ -81,6 +80,11 @@
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 8px;
   position: relative;
+  transition: border-color 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: #1f6f54;
 }
 
 .input-icon {
@@ -93,7 +97,7 @@
   flex: 1;
   border: none;
   outline: none;
-  font-size: 16px;
+  font-size: 15px;
   color: #1e293b;
   background: transparent;
 }
@@ -122,26 +126,27 @@
   opacity: 0.7;
 }
 
-/* ========== BOTÓN PRINCIPAL ========== */
+/* ========== BOTÓN PRINCIPAL (ESTILO SOFISTICADO) ========== */
 .boton-principal {
   width: 100%;
   background-color: #1f6f54;
   color: white;
-  padding: 18px;
-  margin-top: 20px;
+  padding: 16px;
+  margin-top: 25px;
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  letter-spacing: 2px;
-  font-size: 14px;
-  box-shadow: 0 10px 20px rgba(31, 111, 84, 0.3);
+  font-family: 'Cinzel', 'Times New Roman', serif; /* Fuente clásica y refinada para el botón */
+  font-weight: 600;
+  letter-spacing: 3px; /* Espaciado amplio para dar aspecto de lujo */
+  font-size: 13px;
+  box-shadow: 0 10px 20px rgba(31, 111, 84, 0.25);
   transition: all 0.3s ease;
 }
 
 .boton-principal:hover:not(:disabled) {
   background-color: #15553f;
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(31, 111, 84, 0.4);
+  box-shadow: 0 15px 30px rgba(31, 111, 84, 0.35);
 }
 
 .boton-principal:disabled {
