@@ -17,7 +17,7 @@
 
 /* ========== HEADER ========== */
 .favoritos-header-glaze {
-  padding: 30px 40px 20px 40px;
+  padding: 30px 40px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -80,42 +80,98 @@
   opacity: 0.8;
 }
 
-/* ========== BUSCADOR ========== */
-.search-container-fav {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 40px;
+/* ========== BUSCADOR EXPANDIBLE (Estilo Catálogo) ========== */
+.search-expandable-fav {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.search-input-wrapper-fav {
+.btn-search-icon-fav {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.btn-search-icon-fav:hover {
+  background: #e2e8f0;
+  color: #0a3d2e;
+  transform: scale(1.05);
+}
+
+.search-expandable-fav.expanded {
+  width: 350px;
+}
+
+.search-expanded-content-fav {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px;
-  background: #fbfcfc;
-  border: 1px solid #f1f5f9;
-  border-radius: 4px;
-  max-width: 500px;
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: expandSearchFav 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.search-input-fav {
+@keyframes expandSearchFav {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.search-input-expanded-fav {
   flex: 1;
   border: none;
   outline: none;
   font-size: 13px;
-  color: var(--glaze-dark);
+  color: #1e293b;
   background: transparent;
 }
 
-.search-input-fav::placeholder {
+.search-input-expanded-fav::placeholder {
   color: #cbd5e1;
+}
+
+.btn-clear-search-fav,
+.btn-close-search-fav {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.btn-clear-search-fav:hover,
+.btn-close-search-fav:hover {
+  background: #e2e8f0;
+  color: #0a3d2e;
 }
 
 /* ========== CONTENIDO PRINCIPAL ========== */
 .favoritos-main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 40px 60px 40px;
+  padding: 40px;
 }
 
 .loading-favoritos {
@@ -150,6 +206,7 @@
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .card-favorito-glaze:hover {
@@ -170,7 +227,6 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  border-radius: 4px 4px 0 0;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -187,7 +243,6 @@
   z-index: 0;
 }
 
-/* La imagen se adapta al cuadro sin importar su resolución/proporción original */
 .gem-image-fav {
   position: relative;
   width: 100%;
@@ -197,7 +252,6 @@
   z-index: 1;
 }
 
-/* TOP ROW (BADGE + CORAZÓN) — siempre por encima de la imagen */
 .top-row-fav {
   position: absolute;
   top: 0;
@@ -218,7 +272,6 @@
   letter-spacing: 1.5px;
 }
 
-/* 🔥 BOTÓN CORAZÓN */
 .heart-btn-fav {
   background: white;
   border: none;
@@ -239,7 +292,6 @@
   box-shadow: 0 6px 12px rgba(225, 29, 72, 0.3);
 }
 
-/* OVERLAY VENDIDO */
 .sold-overlay-fav {
   position: absolute;
   left: 0;
@@ -307,7 +359,7 @@
   letter-spacing: 1px;
   font-size: 10px;
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 50px; /* 🔥 Estilo cápsula a juego con el catálogo */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,14 +381,17 @@
 @media (max-width: 768px) {
   .favoritos-header-glaze {
     padding: 20px;
+    flex-wrap: wrap;
   }
 
-  .search-container-fav {
-    padding: 20px;
+  .search-expandable-fav.expanded {
+    width: 100%;
+    order: 4;
+    margin-top: 15px;
   }
 
   .favoritos-main {
-    padding: 20px;
+    padding: 30px 20px;
   }
 
   .favoritos-grid-glaze {

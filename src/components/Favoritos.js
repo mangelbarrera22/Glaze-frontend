@@ -1,7 +1,7 @@
 // src/pages/Favoritos.js
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiSearch, FiArchive, FiArrowRight } from "react-icons/fi";
+import { FiArrowLeft, FiSearch, FiArchive, FiArrowRight, FiX } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import API from "../services/api";
 import "./Favoritos.css";
@@ -12,6 +12,7 @@ function Favoritos() {
   const [favoritos, setFavoritos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false); // 🔥 Estado para expandir el buscador
 
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
@@ -35,13 +36,10 @@ function Favoritos() {
     }
   };
 
-  // 🔥 ELIMINAR FAVORITO (igual que mobile)
+  // 🔥 ELIMINAR FAVORITO
   const eliminarFavorito = async (id_favorito, id_producto) => {
     try {
-      // Enviamos solo el id_favorito al endpoint DELETE
       await API.delete(`/favoritos/${id_favorito}`);
-      
-      // Actualización optimista: quitamos de la lista visual
       setFavoritos(prev => prev.filter(item => item.id_producto !== id_producto));
     } catch (error) {
       console.error("Error al eliminar:", error.response?.data || error.message);
@@ -69,25 +67,55 @@ function Favoritos() {
           <p className="brand-subtitle-fav">MI SELECCIÓN PRIVADA</p>
         </div>
 
+        {/* 🔥 BUSCADOR EXPANDIBLE (Adaptado del Catálogo) */}
+        <div className={`search-expandable-fav ${isExpanded ? 'expanded' : ''}`}>
+          {!isExpanded ? (
+            <button 
+              className="btn-search-icon-fav" 
+              onClick={() => setIsExpanded(true)}
+              title="Buscar"
+            >
+              <FiSearch size={18} />
+            </button>
+          ) : (
+            <div className="search-expanded-content-fav">
+              <FiSearch size={16} color="#64748b" />
+              <input
+                type="text"
+                placeholder="Buscar por color o tipo..."
+                value={filtro}
+                onChange={(e) => setFiltro(e.target.value)}
+                className="search-input-expanded-fav"
+                autoFocus
+              />
+              {filtro && (
+                <button 
+                  className="btn-clear-search-fav" 
+                  onClick={() => setFiltro("")}
+                  title="Limpiar"
+                >
+                  <FiX size={14} />
+                </button>
+              )}
+              <button 
+                className="btn-close-search-fav" 
+                onClick={() => {
+                  setIsExpanded(false);
+                  setFiltro("");
+                }}
+                title="Cerrar"
+              >
+                <FiX size={18} />
+              </button>
+            </div>
+          )}
+        </div>
+
         <div className="logo-fav-container">
           <img 
-                      src={logoGlaze} 
-                      alt="Glaze" 
-                      className="logo-fav-glaze"
-                    />
-        </div>
-      </div>
-
-      {/* BUSCADOR */}
-      <div className="search-container-fav">
-        <div className="search-input-wrapper-fav">
-          <FiSearch size={16} color="#94a3b8" />
-          <input
-            type="text"
-            placeholder="Buscar por color o tipo..."
-            value={filtro}
-            onChange={(e) => setFiltro(e.target.value)}
-            className="search-input-fav"
+            src={logoGlaze} 
+            alt="Glaze" 
+            className="logo-fav-glaze"
           />
         </div>
       </div>
