@@ -61,14 +61,14 @@ function Perfil() {
     }
 
     try {
-      await API.put(`/usuario/${user.id_usuario}`, {
+      await API.put(`/usuarios/${user.id_usuario}`, {
         nombre: form.nombre.trim(),
         correo: form.correo.trim(),
         telefono: form.telefono.trim(),
         direccion: form.direccion.trim()
       });
 
-      alert("Perfil actualizado con éxito ✅");
+      alert("Perfil actualizado con éxito");
     } catch (error) {
       console.error("Error al actualizar perfil:", error);
       alert("Hubo un error al actualizar el perfil.");
