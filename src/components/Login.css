@@ -49,13 +49,16 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
+/* ========== TÍTULO ACTUALIZADO (FUENTE Y ESTILO) ========== */
 .card-title {
-  font-size: 18px;
+  font-size: 20px; /* Ikatu emoambue ne rembipota rupi */
   color: #0a3d2e;
   text-align: center;
   margin-bottom: 30px;
-  letter-spacing: 1px;
-  font-weight: 600;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  /* Emoĩ ko'ápe pe fuente pyahu reiporuséva, por ehemplo: */
+  font-family: 'Georgia', serif; /* Térã 'Playfair Display', 'Poppins', etc. */
 }
 
 /* ========== INPUTS ========== */
