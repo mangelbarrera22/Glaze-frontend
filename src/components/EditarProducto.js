@@ -104,8 +104,8 @@ function EditarProducto() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      alert("Pieza actualizada correctamente 💎");
-      navigate("/mi-catalogo");
+      alert("Pieza actualizada correctamente ");
+      navigate("/Micatalogo");
     } catch (err) {
       alert(err.response?.data?.mensaje || "No se pudieron guardar los cambios.");
     } finally {
