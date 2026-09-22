@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./EditarProducto.css";
 
-const BASE_URL = "glaze-backend-production-ad01.up.railway.app/api";
+const BASE_URL = "https://glaze-backend-production-ad01.up.railway.app/api";
 
 function EditarProducto() {
   const { id_producto } = useParams();
@@ -54,7 +54,7 @@ function EditarProducto() {
         plata: !!p.plata,
       });
       if (p.imagen) {
-        setImagenPreview(`glaze-backend-production-ad01.up.railway.app/uploads/${p.imagen}`);
+        setImagenPreview(p.imagen);
       }
     } catch (err) {
       alert("No se pudo cargar el producto.");
