@@ -83,7 +83,8 @@ function ProductoDetalle() {
       
       const datosPago = {
         id_producto: producto.id_producto,
-        id_vendedor: producto.id_vendedor || 1
+        id_vendedor: producto.id_vendedor || 1,
+        redirect_url: `${window.location.origin}/producto/${producto.id_producto}`
       };
 
       console.log("📤 Iniciando pago con Wompi:", datosPago);
