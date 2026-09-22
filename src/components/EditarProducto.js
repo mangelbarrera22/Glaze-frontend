@@ -5,6 +5,30 @@ import "./EditarProducto.css";
 
 const BASE_URL = "https://glaze-backend-production-ad01.up.railway.app/api";
 
+// --- Iconos SVG (reemplazan los emojis) ---
+const IconoEsmeralda = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 3h12l4 6-10 12L2 9z" />
+    <path d="M2 9h20" />
+    <path d="M9 3l3 6-3 12" />
+    <path d="M15 3l-3 6 3 12" />
+  </svg>
+);
+
+const IconoJoya = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="8" />
+    <path d="M12 8v8M8 12h8" />
+  </svg>
+);
+
+const IconoCamara = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 8h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
+    <circle cx="12" cy="14" r="3.5" />
+  </svg>
+);
+
 function EditarProducto() {
   const { id_producto } = useParams();
   const navigate = useNavigate();
@@ -104,7 +128,7 @@ function EditarProducto() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      alert("Pieza actualizada correctamente ");
+      alert("Pieza actualizada correctamente");
       navigate("/Micatalogo");
     } catch (err) {
       alert(err.response?.data?.mensaje || "No se pudieron guardar los cambios.");
@@ -145,7 +169,8 @@ function EditarProducto() {
                 className={`tipo-btn ${form.tipo_producto === tipo ? "tipo-btn-active" : ""}`}
                 onClick={() => setForm((prev) => ({ ...prev, tipo_producto: tipo }))}
               >
-                {tipo === "esmeralda" ? "💎 Esmeralda" : "💍 Joya"}
+                {tipo === "esmeralda" ? <IconoEsmeralda /> : <IconoJoya />}
+                {tipo === "esmeralda" ? "Esmeralda" : "Joya"}
               </button>
             ))}
           </div>
@@ -191,7 +216,8 @@ function EditarProducto() {
           )}
 
           <label className="btn-imagen">
-            📷 {imagenNueva ? "Cambiar imagen" : "Reemplazar imagen"}
+            <IconoCamara />
+            {imagenNueva ? "Cambiar imagen" : "Reemplazar imagen"}
             <input type="file" accept="image/*" onChange={handleImagen} style={{ display: "none" }} />
           </label>
         </div>
