@@ -311,6 +311,38 @@
   border-radius: 4px;
 }
 
+/* ========== VISTA PREVIA DE CERTIFICADO PDF ========== */
+.preview-pdf-publicar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 250px;
+  background: #fbfcfc;
+  color: #1f6f54;
+  text-decoration: none;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.preview-pdf-publicar:hover {
+  background: #f0f9f6;
+}
+
+.preview-pdf-nombre-publicar {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0a3d2e;
+  text-align: center;
+  word-break: break-word;
+  max-width: 220px;
+}
+
+.preview-pdf-publicar svg:last-child {
+  color: #94a3b8;
+}
+
 /* ========== BANNER DE ESTADO ========== */
 .status-banner-publicar {
   display: flex;

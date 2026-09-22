@@ -11,7 +11,9 @@ import {
   FiCamera,
   FiShield,
   FiAlertCircle,
-  FiCheck
+  FiCheck,
+  FiFileText,
+  FiExternalLink
 } from "react-icons/fi";
 import API from "../services/api";
 import "./publicar.css";
@@ -39,6 +41,8 @@ function CrearProducto() {
 
   const [previewImagen, setPreviewImagen] = useState(null);
   const [certificadoNombre, setCertificadoNombre] = useState("");
+  const [previewCertificado, setPreviewCertificado] = useState(null);
+  const [certificadoEsPdf, setCertificadoEsPdf] = useState(false);
 
   const handleChange = (name, value) => {
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -56,9 +60,11 @@ function CrearProducto() {
     if (!file) return;
     setForm((prev) => ({ ...prev, certificado: file }));
     setCertificadoNombre(file.name);
+    setCertificadoEsPdf(file.type === "application/pdf");
+    setPreviewCertificado(URL.createObjectURL(file));
   };
 
-  // ☁️ Subida directa a Cloudinary (igual que mobile)
+  // Subida directa a Cloudinary (igual que mobile)
   const subirArchivoCloudinary = async (file) => {
     const data = new FormData();
     data.append("file", file);
@@ -95,6 +101,8 @@ function CrearProducto() {
     });
     setPreviewImagen(null);
     setCertificadoNombre("");
+    setPreviewCertificado(null);
+    setCertificadoEsPdf(false);
     setStatusMsg({ text: "", type: "" });
   };
 
@@ -319,6 +327,30 @@ function CrearProducto() {
                   hidden
                 />
               </label>
+
+              {previewCertificado && (
+                <div className="preview-container-publicar">
+                  {certificadoEsPdf ? (
+                    <a
+                      href={previewCertificado}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="preview-pdf-publicar"
+                    >
+                      <FiFileText size={28} />
+                      <span className="preview-pdf-nombre-publicar">{certificadoNombre}</span>
+                      <FiExternalLink size={14} />
+                    </a>
+                  ) : (
+                    <img
+                      src={previewCertificado}
+                      alt="Vista previa del certificado"
+                      className="preview-image-publicar"
+                    />
+                  )}
+                  <span className="preview-badge-publicar">PREVIEW</span>
+                </div>
+              )}
             </div>
 
             {statusMsg.text !== "" && (
